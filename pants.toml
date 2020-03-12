@@ -21,3 +21,10 @@ backend_packages2 = [
 
 # List v2 plugins here.
 plugins2 = []
+
+
+[source]
+# The python source root is the repo root.
+source_roots = """{
+  '': ('python',),
+}"""

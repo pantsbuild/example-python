@@ -1,7 +1,7 @@
 # Copyright 2020 Pants project contributors.
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
-from util.resources import get_lines
+from helloworld.util.resources import get_lines
 
 
 def test_get_lines():

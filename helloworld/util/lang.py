@@ -3,8 +3,8 @@
 
 import random
 
+from helloworld.util.resources import get_lines
 from translate import Translator
-from util.resources import get_lines
 
 
 class LanguageTranslator:

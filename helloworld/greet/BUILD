@@ -1,13 +1,14 @@
 # Copyright 2020 Pants project contributors.
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
+
 python_library(
-    # name defaults to the name of this directory, i.e., `util`.
+    # name defaults to the name of this directory, i.e., `helloworld`.
     # sources defaults to ['*.py', '!*_test.py', '!test_*.py', '!conftest.py'].
     dependencies = [
-        "3rdparty/python:setuptools",
-        "3rdparty/python:translate",
-        ":langs"
+        "//:translate",
+        ":greetings",
+        "helloworld/util"
     ]
 )
 
@@ -16,19 +17,12 @@ python_tests(
     name = 'tests',
     # sources defaults to ['*_test.py', 'test_*.py', 'conftest.py'].
     dependencies = [
-        ":resources_test",
-        ":util",
+        ":greet"
     ]
 )
 
 
 resources(
-    name = 'langs',
-    sources = ['langs.txt'],
-)
-
-
-resources(
-    name = 'resources_test',
-    sources = ['resources_test.txt'],
+    name = 'greetings',
+    sources = ['greetings.txt'],
 )

@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 import pytest
-from util.lang import LanguageTranslator
+from helloworld.util.lang import LanguageTranslator
 
 
 def test_language_translator():
