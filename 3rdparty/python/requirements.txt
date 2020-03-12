@@ -1,0 +1,6 @@
+# Copyright 2020 Pants project contributors.
+# Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+ansicolors>=1.0.2
+setuptools>=42.0.0
+translate>=3.2.1
