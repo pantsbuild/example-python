@@ -3,8 +3,8 @@
 
 import random
 
-from util.lang import LanguageTranslator
-from util.resources import get_lines
+from helloworld.util.lang import LanguageTranslator
+from helloworld.util.resources import get_lines
 
 
 class Greeter:

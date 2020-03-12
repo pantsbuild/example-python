@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 from colors import green
-from helloworld.greeting import Greeter
+from helloworld.greet.greeting import Greeter
 
 
 def say_hello():
