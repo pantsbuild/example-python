@@ -6,7 +6,6 @@ python_binary(
     # name defaults to the name of this directory, i.e., `helloworld`.
     sources = ["main.py"],
     entry_point = "helloworld.main",
-    compatibility = ">=3.6",
     dependencies = [
         "//:ansicolors",
         "helloworld/greet",
