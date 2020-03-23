@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "1.26.0rc1"
+pants_version = "1.27.0.dev0"
 v1 =  false  # Turn off the v1 execution engine.
 v2 = true  # Enable the v2 execution engine.
 v2_ui = true  # Enable the v2 execution engine's terminal-based UI.
@@ -28,3 +28,9 @@ plugins2 = []
 source_roots = """{
   '': ('python',),
 }"""
+
+
+[python-setup]
+# We have both Python 2 and Python 3 code in the repo, so we have to override the
+# default repo-wide value of CPython>=3.6.
+interpreter_constraints = "CPython>=2.7,!=3.0,!=3.1,!=3.2,!=3.3,!=3.4,!=3.5"

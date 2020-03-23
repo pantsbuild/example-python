@@ -3,13 +3,14 @@
 
 
 python_library(
-    # name defaults to the name of this directory, i.e., `helloworld`.
+    # name defaults to the name of this directory, i.e., `greet`.
     # sources defaults to ['*.py', '!*_test.py', '!test_*.py', '!conftest.py'].
     dependencies = [
         "//:translate",
         ":greetings",
         "helloworld/util"
-    ]
+    ],
+    compatibility = ">=3.6",
 )
 
 
