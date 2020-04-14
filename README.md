@@ -23,7 +23,7 @@ Pants commands are called _goals_. You can get a list of goals with
 
 Targets are sets of source files with some attached metadata. Targets are provided in `BUILD` files.
 Targets have types, such as `python_library`, `resources`, `python_binary`. Examples of metadata include
-dependencies on other targets, python version compatibility, entry points for binaries, and so on.
+dependencies on other targets, Python version compatibility, entry points for binaries, and so on.
 
 
 Pants goals can be invoked on targets or directly on source files/directories (which is often more intuitive and convenient).
@@ -154,4 +154,3 @@ Try these out in this repo!
 ```
 ./pants cloc '**/*'
 ```
-
