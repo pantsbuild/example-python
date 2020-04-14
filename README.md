@@ -25,10 +25,8 @@ Targets are sets of source files with some attached metadata. Targets are provid
 Targets have types, such as `python_library`, `resources`, `python_binary`. Examples of metadata include
 dependencies on other targets, Python version compatibility, entry points for binaries, and so on.
 
-
 Pants goals can be invoked on targets or directly on source files/directories (which is often more intuitive and convenient).
 In the latter case, Pants locates target metadata for the source files as needed.
-
 
 ## File specifications
 
@@ -121,6 +119,7 @@ Try these out in this repo!
 ./pants test ::  # Run all tests in the repo.
 ./pants test helloworld/util:test  # Run all the tests in this target.
 ./pants test helloworld/util/lang_test.py  # Run just the tests in this file.
+./pants test helloworld/util/lang_test.py --pytest-args='-k test_language_translator'  # Run just this one test.
 ```
 
 ## Create a runnable binary
@@ -145,7 +144,7 @@ Try these out in this repo!
 ## Run `setup.py` commands
 
 ```
-./pants setup-py --args="bdist_wheel" helloworld/util
+./pants setup-py --args="bdist_wheel" helloworld/util  # Build a wheel.
 ```
 
 
