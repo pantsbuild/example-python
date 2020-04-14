@@ -142,6 +142,13 @@ Try these out in this repo!
 ./pants repl --shell=ipython helloworld/greet
 ```
 
+## Run `setup.py` commands
+
+```
+./pants setup-py --args="bdist_wheel" helloworld/util
+```
+
+
 ## Count lines of code
 
 ```
