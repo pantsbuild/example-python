@@ -8,7 +8,12 @@ python_library(
         "//:setuptools",
         "//:translate",
         ":langs"
-    ]
+    ],
+    provides = setup_py(
+        name='helloworld.util',
+        version='0.0.1',
+        description='Greeting library utilities',
+    ),
 )
 
 
