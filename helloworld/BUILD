@@ -12,6 +12,16 @@ python_binary(
     ]
 )
 
+# Note: Has sdist dependencies, so must be built on Linux.
+python_awslambda(
+    name='helloworld-awslambda',
+    sources = ["awslambda.py"],
+    dependencies=[
+        "helloworld/greet",
+    ],
+    handler='helloworld.awslambda:handler',
+    runtime='python3.7',
+)
 
 python_binary(
     name = "helloworld_py2",
