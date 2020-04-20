@@ -98,8 +98,6 @@ Try these out in this repo!
 
 ## List targets
 
-### List targets under a directory
-
 ```
 ./pants list helloworld::  # All targets.
 
@@ -147,6 +145,11 @@ Try these out in this repo!
 ./pants setup-py --args="bdist_wheel" helloworld/util  # Build a wheel.
 ```
 
+## Build an AWS Lambda
+
+```
+./pants awslambda helloworld:helloworld-awslambda  # Has sdist requirements, so must be built on Linux.
+```
 
 ## Count lines of code
 

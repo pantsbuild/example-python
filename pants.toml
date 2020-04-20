@@ -16,6 +16,7 @@ backend_packages2 = [
   'pants.backend.python.lint.black',
   'pants.backend.python.lint.flake8',
   'pants.backend.python.lint.isort',
+  'pants.backend.awslambda.python',
 ]
 
 # List v2 plugins here.
