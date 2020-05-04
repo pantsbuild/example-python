@@ -5,5 +5,5 @@
 python_library(
     # name defaults to the name of this directory, i.e., `greet_py2`.
     # sources defaults to ['*.py', '!*_test.py', '!test_*.py', '!conftest.py'].
-    compatibility = "CPython>=2.7,<3"
+    compatibility = ">=2.7,<3"
 )
