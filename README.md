@@ -1,5 +1,5 @@
 # example-python
-An example repo to demonstrate Python support in Pants v2.
+An example repository to demonstrate Python support in Pants v2.
 
 See https://pants.readme.io/ for much more detailed documentation.
 
