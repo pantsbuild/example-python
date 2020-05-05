@@ -17,5 +17,6 @@ cache:
     - $HOME/.cache/pants/lmdb_store
 
 script:
+  - ./pants --version  # This will bootstrap Pants
   - ./pants --changed-since=origin/master lint
-  - ./pants --changed-since=origin/master --changed-include-dependencies=transitive test
+  - ./pants --changed-since=origin/master --changed-include-dependees=transitive test
