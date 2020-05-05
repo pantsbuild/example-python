@@ -4,4 +4,4 @@
 
 def greet_py2(name):
     exec "x = 'hello, {}'.format(name)"
-    return x
+    return x  # noqa
