@@ -1,0 +1,23 @@
+# See https://pants.readme.io/docs/using-pants-in-ci.
+
+[GLOBAL]
+# Turn off the interactive UI.
+v2_ui = false
+
+# Limit the maximum number of concurrent processes. Change this
+# to a number that makes sense for your CI setup, based on
+# the number of cores/threads.
+process_execution_local_parallelism = 4
+
+[python-setup]
+# Limit the maximum number of concurrent jobs used to resolve third
+# party dependencies. The total level of parallelism will be
+# `process_execution_local_parallelism x resolver_jobs`.
+resolver_jobs = 1
+
+[lint]
+# We use `per_target_caching` because we have some Python 2-only targets and some Python 3-only
+# targets, so we need to run each target as a separate process to avoid interpreter compatibility.
+# If you only have one single language in your project, do not use this setting. See
+# https://pants.readme.io/docs/python-lint-goal.
+per_target_caching = true

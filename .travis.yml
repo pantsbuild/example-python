@@ -1,0 +1,21 @@
+# Copyright 2020 Pants project contributors.
+# Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+# See https://pants.readme.io/docs/using-pants-in-ci for tips on how to set up your CI with Pants.
+
+env:
+  global:
+    - PANTS_CONFIG_FILES=pants.ci.toml
+
+os: linux
+dist: bionic
+language: python
+
+cache:
+  directories:
+    - $HOME/.cache/pants/setup
+    - $HOME/.cache/pants/lmdb_store
+
+script:
+  - ./pants --changed-since=origin/master lint
+  - ./pants --changed-since=origin/master --changed-include-dependencies=transitive test
