@@ -2,13 +2,13 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 python_library(
-    # name defaults to the name of this directory, i.e., `util`.
-    # sources defaults to ['*.py', '!*_test.py', '!test_*.py', '!conftest.py'].
+    # `name` defaults to the name of this directory, i.e., `util`.
+    # `sources` defaults to ['*.py', '!*_test.py', '!test_*.py', '!conftest.py'].
     dependencies = [
         "//:setuptools",
         "//:translate",
-        ":langs"
     ],
+    # See https://pants.readme.io/docs/python-setup-py-goal.
     provides = setup_py(
         name='helloworld.util',
         version='0.0.1',
@@ -16,24 +16,16 @@ python_library(
     ),
 )
 
-
 python_tests(
     name = 'tests',
-    # sources defaults to ['*_test.py', 'test_*.py', 'conftest.py'].
+    # `sources` defaults to ['*_test.py', 'test_*.py', 'conftest.py'].
     dependencies = [
-        ":resources_test",
+        ":config_loader_test_data",
         ":util",
     ]
 )
 
-
 resources(
-    name = 'langs',
-    sources = ['langs.txt'],
-)
-
-
-resources(
-    name = 'resources_test',
-    sources = ['resources_test.txt'],
+    name = 'config_loader_test_data',
+    sources = ['config_loader_test_data.json'],
 )

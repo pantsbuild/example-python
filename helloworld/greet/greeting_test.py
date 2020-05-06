@@ -4,7 +4,6 @@
 from helloworld.greet.greeting import Greeter
 
 
-def test_greeter():
-    greeter = Greeter()
-    greeting = greeter.greet("world")
-    assert greeting.endswith("world!")
+def test_greeter() -> None:
+    greeter = Greeter(languages=["es"], greetings=["good morning"])
+    assert greeter.greet("world") == "Buenos días, world!"

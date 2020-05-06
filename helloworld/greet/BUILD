@@ -6,8 +6,7 @@ python_library(
     # `sources` defaults to ['*.py', '!*_test.py', '!test_*.py', '!conftest.py'].
     dependencies = [
         "//:translate",
-        ":greetings",
-        "helloworld/util"
+        "helloworld/util",
     ],
 )
 
@@ -15,11 +14,6 @@ python_tests(
     name = 'tests',
     # `sources` defaults to ['*_test.py', 'test_*.py', 'conftest.py'].
     dependencies = [
-        ":greet"
+        ":greet",
     ]
-)
-
-resources(
-    name = 'greetings',
-    sources = ['greetings.txt'],
 )
