@@ -22,7 +22,6 @@ backend_packages2 = [
 # List v2 plugins here.
 plugins2 = []
 
-
 [source]
 # The Python source root is the repo root. See https://pants.readme.io/docs/source-roots.
 source_roots = """{
@@ -37,3 +36,9 @@ source_roots = """{
 interpreter_constraints = [">=3.7"]
 # Use a lockfile. See https://pants.readme.io/docs/python-third-party-dependencies.
 requirement_constraints = "constraints.txt"
+
+[flake8]
+config = ".flake8"
+
+[isort]
+config = [".isort.cfg"]
