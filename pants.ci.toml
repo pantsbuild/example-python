@@ -14,10 +14,3 @@ process_execution_local_parallelism = 4
 # party dependencies. The total level of parallelism will be
 # `process_execution_local_parallelism x resolver_jobs`.
 resolver_jobs = 1
-
-[lint]
-# We use `per_target_caching` because we have some Python 2-only targets and some Python 3-only
-# targets, so we need to run each target as a separate process to avoid interpreter compatibility
-# conflicts. If you only have one Python version in your repository, do not use this setting. See
-# https://pants.readme.io/docs/python-lint-goal.
-per_target_caching = true
