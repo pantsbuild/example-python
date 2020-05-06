@@ -4,3 +4,4 @@
 ansicolors>=1.0.2
 setuptools>=42.0.0
 translate>=3.2.1
+protobuf>=3.11.3

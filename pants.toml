@@ -11,6 +11,7 @@ backend_packages = []  # Deregister all v1 backends.
 
 # List v2 backends here.
 backend_packages2 = [
+  'pants.backend.codegen.protobuf.python',
   'pants.backend.python',
   'pants.backend.python.lint.docformatter',
   'pants.backend.python.lint.black',
@@ -22,13 +23,17 @@ backend_packages2 = [
 # List v2 plugins here.
 plugins2 = []
 
-
 [source]
 # The Python source root is the repo root. See https://pants.readme.io/docs/source-roots.
 source_roots = """{
   '': ('python',),
 }"""
 
+[flake8]
+config = ".flake8"
+
+[isort]
+config = [".isort.cfg"]
 
 [python-setup]
 # The default interpreter compatibility for code in this repo. Individual targets can ovverride

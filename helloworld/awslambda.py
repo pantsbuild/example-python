@@ -2,7 +2,10 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 from helloworld.greet.greeting import Greeter
+from helloworld.util.config_loader import load_config_from_json
 
 
 def handler(event, context):
-    print(Greeter().greet("world"))
+    config = load_config_from_json(__name__, "config.json")
+    greeter = Greeter(greetings=config.greetings, languages=config.languages)
+    print(greeter.greet("world"))
