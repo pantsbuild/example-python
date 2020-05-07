@@ -9,9 +9,7 @@ python_binary(
         ":config",
         "//:ansicolors",
         "helloworld/greet",
-        "helloworld/protos",
-        "helloworld/util",
-    ]
+    ],
 )
 
 # Note: Has sdist dependencies, so must be built on Linux.
@@ -21,7 +19,6 @@ python_awslambda(
     dependencies=[
         ":config",
         "helloworld/greet",
-        "helloworld/util",
     ],
     handler='helloworld.awslambda:handler',
     runtime='python3.7',
@@ -35,10 +32,20 @@ python_binary(
     dependencies = [
         "//:ansicolors",
         "helloworld/greet_py2",
-    ]
+    ],
+)
+
+python_library(
+    name = "config",
+    sources = ["config.py"],
+    dependencies = [
+        ":config_file",
+        "helloworld/protos",
+        "helloworld/util",
+    ],
 )
 
 resources(
-     name = 'config',
-     sources = ['config.json'],
+    name = "config_file",
+    sources = ["config.json"],
 )
