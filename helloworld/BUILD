@@ -1,14 +1,15 @@
 # Copyright 2020 Pants project contributors.
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
-
 python_binary(
     # name defaults to the name of this directory, i.e., `helloworld`.
     sources = ["main.py"],
     entry_point = "helloworld.main",
     dependencies = [
+        ":config",
         "//:ansicolors",
         "helloworld/greet",
+        "helloworld/util",
     ]
 )
 
@@ -17,7 +18,9 @@ python_awslambda(
     name='helloworld-awslambda',
     sources = ["awslambda.py"],
     dependencies=[
+        ":config",
         "helloworld/greet",
+        "helloworld/util",
     ],
     handler='helloworld.awslambda:handler',
     runtime='python3.7',
@@ -32,4 +35,9 @@ python_binary(
         "//:ansicolors",
         "helloworld/greet_py2",
     ]
+)
+
+resources(
+     name = 'config',
+     sources = ['config.json'],
 )
