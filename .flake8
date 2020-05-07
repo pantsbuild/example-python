@@ -2,4 +2,4 @@
 extend-ignore:
   E203,  # whitespace before ':' (conflicts with Black)
   E231,  # Bad trailing comma (conflicts with Black)
-  E501,  # line too long (> 79 characters)
+  E501,  # line too long (conflicts with Black)

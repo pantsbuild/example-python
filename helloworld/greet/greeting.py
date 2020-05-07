@@ -10,7 +10,7 @@ from helloworld.util.lang import LanguageTranslator
 class Greeter:
     def __init__(self, greetings: List[str], languages: List[str]) -> None:
         self._greetings = greetings
-        self._language_translator = LanguageTranslator(languages)
+        self._language_translator = LanguageTranslator(languages=languages)
 
     def translated_greeting(self) -> str:
         random_greeting = random.choice(self._greetings)
@@ -18,4 +18,4 @@ class Greeter:
 
     def greet(self, name: str) -> str:
         greeting = self.translated_greeting()
-        return f"{greeting}, {name}!"
+        return f"{greeting}, {name}!".capitalize()

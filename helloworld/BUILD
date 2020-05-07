@@ -39,6 +39,6 @@ python_binary(
 )
 
 resources(
-    name = 'config',
-    sources = ['config.json'],
+     name = 'config',
+     sources = ['config.json'],
 )

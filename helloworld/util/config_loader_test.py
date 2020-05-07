@@ -4,7 +4,7 @@
 from helloworld.util.config_loader import load_config_from_json
 
 
-def test_get_lines():
+def test_load_config_from_json() -> None:
     config = load_config_from_json(__name__, "config_loader_test_data.json")
     assert config.languages == ["af", "zh"]
     assert config.greetings == ["hi", "hey"]

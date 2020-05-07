@@ -7,5 +7,5 @@ from helloworld.util.config_loader import load_config_from_json
 
 def handler(event, context):
     config = load_config_from_json("helloworld", "config.json")
-    greeter = Greeter(greetings=config.greetings, languages=config.languages)
+    greeter = Greeter(languages=config.languages, greetings=config.greetings)
     print(greeter.greet("world"))

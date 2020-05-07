@@ -9,8 +9,8 @@ from helloworld.util.config_loader import load_config_from_json
 
 
 def say_hello(config: Config) -> None:
-    greeter = Greeter(greetings=config.greetings, languages=config.languages)
-    sentence = greeter.greet("world").capitalize()
+    greeter = Greeter(languages=config.languages, greetings=config.greetings)
+    sentence = greeter.greet("world")
     print(green(sentence))
 
 

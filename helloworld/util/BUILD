@@ -9,6 +9,7 @@ python_library(
         "//:translate",
         "helloworld/protos",
     ],
+    # See https://pants.readme.io/docs/python-setup-py-goal.
     provides = setup_py(
         name='helloworld.util',
         version='0.0.1',
@@ -18,7 +19,7 @@ python_library(
 
 python_tests(
     name = 'tests',
-    # sources defaults to ['*_test.py', 'test_*.py', 'conftest.py'].
+    # `sources` defaults to ['*_test.py', 'test_*.py', 'conftest.py'].
     dependencies = [
         ":config_loader_test_data",
         ":util",
