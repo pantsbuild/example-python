@@ -1,10 +1,10 @@
 {
-   "languages": [
-     "af",
-     "zh"
-   ],
-   "greetings": [
-     "hi",
-     "hey"
-   ]
- }
+  "languages": [
+    "af",
+    "zh"
+  ],
+  "greetings": [
+    "hi",
+    "hey"
+  ]
+}

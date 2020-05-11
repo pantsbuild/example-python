@@ -1,11 +1,11 @@
 {
   "languages": [
-     "en",
-     "de",
-     "fr",
-     "es"
+    "en",
+    "de",
+    "fr",
+    "es"
   ],
-"greetings": [
+  "greetings": [
     "hello",
     "good morning",
     "good afternoon",

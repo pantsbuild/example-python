@@ -7,6 +7,7 @@ python_library(
     dependencies = [
         "//:setuptools",
         "//:translate",
+        "helloworld/protos",
     ],
     # See https://pants.readme.io/docs/python-setup-py-goal.
     provides = setup_py(
@@ -22,7 +23,7 @@ python_tests(
     dependencies = [
         ":config_loader_test_data",
         ":util",
-    ]
+    ],
 )
 
 resources(

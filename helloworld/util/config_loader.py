@@ -1,22 +1,12 @@
 # Copyright 2020 Pants project contributors.
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
-from __future__ import annotations
-
-import json
-from dataclasses import dataclass
-from typing import List
-
 import pkg_resources
+from google.protobuf.json_format import Parse as parse_json
+
+from helloworld.protos.config_pb2 import Config
 
 
-@dataclass
-class Config:
-    languages: List[str]
-    greetings: List[str]
-
-    @classmethod
-    def load_from_json(cls, pkg_name: str, resource_name: str) -> Config:
-        resource_content = pkg_resources.resource_string(pkg_name, resource_name)
-        parsed = json.loads(resource_content)
-        return cls(languages=parsed["languages"], greetings=parsed["greetings"])
+def load_config_from_json(pkg_name: str, resource_name: str) -> Config:
+    resource_content = pkg_resources.resource_string(pkg_name, resource_name).decode()
+    return parse_json(resource_content, Config())
