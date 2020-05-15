@@ -24,6 +24,6 @@ jobs:
     - name: bootstrap
       run: ./pants --version
     - name: Lint
-      run: ./pants
+      run: ./pants lint ::
     - name: Test
-      run: ./pants --changed-include-dependees=transitive test
+      run: ./pants --changed-include-dependees=transitive test ::
