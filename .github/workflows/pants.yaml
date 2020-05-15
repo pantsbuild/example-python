@@ -1,0 +1,29 @@
+name: Pants
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    env:
+      PANTS_CONFIG_FILES: pants.ci.toml
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: bootstrap
+      run: ./pants --version
+    - name: Lint
+      run: ./pants --changed-since=origin/master lint
+    - name: Test
+      run: ./pants --changed-since=origin/master --changed-include-dependees=transitive test
