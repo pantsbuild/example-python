@@ -22,9 +22,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: bootstrap
       run: ./pants --version
-    - name: show diff
-      run: git diff --name-only ${{ github.event.before }} ${{ github.sha }}
-    - name: Lint
-      run: ./pants lint --changed-since=origin/master/HEAD
+   - name: Lint
+      run: ./pants lint ::
     - name: Test
-      run: ./pants --changed-since=origin/master/HEAD --changed-include-dependees=transitive test
+      run: ./pants test ::
