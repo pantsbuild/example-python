@@ -21,8 +21,11 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: bootstrap
-      run: ./pants --version
+      run: |
+        ./pants --version
     - name: Lint
-      run: ./pants lint ::
+      run: | 
+        ./pants lint ::
     - name: Test
-      run: ./pants test ::
+      run: |
+       ./pants test ::
