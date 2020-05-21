@@ -28,4 +28,4 @@ jobs:
         ./pants lint ::
     - name: Test
       run: |
-       ./pants test ::
+        ./pants test ::
