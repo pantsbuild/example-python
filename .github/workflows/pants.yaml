@@ -13,8 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8]
-
+        python-version: [3.7]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -24,6 +23,6 @@ jobs:
     - name: bootstrap
       run: ./pants --version
     - name: Lint
-      run: ./pants --changed-since=origin/master lint
+      run: ./pants lint ::
     - name: Test
-      run: ./pants --changed-since=origin/master --changed-include-dependees=transitive test
+      run: ./pants test ::
