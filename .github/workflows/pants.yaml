@@ -24,6 +24,6 @@ jobs:
     - name: bootstrap
       run: ./pants --version
     - name: Lint
-      run: ./pants lint --changed-since=SHA/reference/branch
+      run: ./pants lint --changed-since=origin/master/HEAD
     - name: Test
-      run: ./pants --changed-since=SHA/reference/branch --changed-include-dependees=transitive test
+      run: ./pants --changed-since=origin/master/HEAD --changed-include-dependees=transitive test
