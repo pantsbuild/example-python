@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "1.28.0rc0"
+pants_version = "1.28.0"
 v1 =  false  # Turn off the v1 execution engine.
 v2 = true  # Enable the v2 execution engine.
 v2_ui = true  # Enable the v2 execution engine's terminal-based UI.
@@ -25,7 +25,7 @@ plugins2 = []
 
 [source]
 # The Python source root is the repo root. See https://pants.readme.io/docs/source-roots.
-root_patterns = ["^"]
+root_patterns = ["/"]
 
 [python-setup]
 # The default interpreter compatibility for code in this repo. Individual targets can ovverride
