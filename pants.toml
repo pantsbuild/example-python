@@ -2,10 +2,11 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "1.28.0"
+pants_version = "1.29.0rc0"
 v1 =  false  # Turn off the v1 execution engine.
 v2 = true  # Enable the v2 execution engine.
-v2_ui = true  # Enable the v2 execution engine's terminal-based UI.
+dynamic_ui = true
+enable_pantsd = true  # Enable the Pants daemon for better performance.
 
 backend_packages = []  # Deregister all v1 backends.
 
@@ -35,12 +36,8 @@ interpreter_constraints = [">=3.7"]
 # Use a lockfile. See https://pants.readme.io/docs/python-third-party-dependencies.
 requirement_constraints = "constraints.txt"
 
-[lint]
-# We use `per_target_caching` because we have some Python 2-only targets and some Python 3-only
-# targets, so we need to run each target as a separate process to avoid interpreter compatibility
-# conflicts. If you only have one Python version in your repository, do not use this setting. See
-# https://pants.readme.io/docs/python-lint-goal.
-per_target_caching = true
+[protoc]
+runtime_targets = ["//:protobuf"]
 
 [flake8]
 config = ".flake8"

@@ -1,8 +1,8 @@
 # See https://pants.readme.io/docs/using-pants-in-ci.
 
 [GLOBAL]
-# Turn off the interactive UI.
-v2_ui = false
+dynamic_ui = false
+enable_pantsd = false
 
 # Limit the maximum number of concurrent processes. Change this
 # to a number that makes sense for your CI setup, based on

@@ -100,7 +100,6 @@ Try these out in this repo!
 
 ```
 ./pants list helloworld::  # All targets.
-
 ./pants list 'helloworld/**/*.py'  # Just targets containing Python code.
 ```
 
@@ -117,7 +116,7 @@ Try these out in this repo!
 ./pants test ::  # Run all tests in the repo.
 ./pants test helloworld/util:test  # Run all the tests in this target.
 ./pants test helloworld/util/lang_test.py  # Run just the tests in this file.
-./pants test helloworld/util/lang_test.py --pytest-args='-k test_language_translator'  # Run just this one test.
+./pants test helloworld/util/lang_test.py -- -k test_language_translator  # Run just this one test.
 ```
 
 ## Create a runnable binary
@@ -147,8 +146,10 @@ Try these out in this repo!
 
 ## Build an AWS Lambda
 
+(This example only works on Linux because it has an sdist. See https://pants.readme.io/docs/awslambda-python.)
+
 ```
-./pants awslambda helloworld:helloworld-awslambda  # Has sdist requirements, so must be built on Linux.
+./pants awslambda helloworld:helloworld-awslambda
 ```
 
 ## Count lines of code
