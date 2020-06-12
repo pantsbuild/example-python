@@ -2,10 +2,10 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "1.28.0"
+pants_version = "1.29.0rc4"
 v1 =  false  # Turn off the v1 execution engine.
 v2 = true  # Enable the v2 execution engine.
-v2_ui = true  # Enable the v2 execution engine's terminal-based UI.
+enable_pantsd = true # Enable pantsd, which will be on by default in 1.30.x.
 
 backend_packages = []  # Deregister all v1 backends.
 
@@ -24,13 +24,15 @@ backend_packages2.add = [
 plugins2 = []
 
 [source]
-# The Python source root is the repo root. See https://pants.readme.io/docs/source-roots.
+# For this repository, the Python source root is the repo root. In your repository you
+# may have a different set of conventions about where Python sources live: see
+# https://pants.readme.io/docs/source-roots for more information on how to set this.
 root_patterns = ["/"]
 
 [python-setup]
-# The default interpreter compatibility for code in this repo. Individual targets can ovverride
-#  this with the `compatibility` field. See
-#  https://pants.readme.io/docs/python-interpreter-compatibility.
+# The default interpreter compatibility for code in this repo. Individual targets can override
+# this with the `compatibility` field. See
+# https://pants.readme.io/docs/python-interpreter-compatibility.
 interpreter_constraints = [">=3.7"]
 # Use a lockfile. See https://pants.readme.io/docs/python-third-party-dependencies.
 requirement_constraints = "constraints.txt"
