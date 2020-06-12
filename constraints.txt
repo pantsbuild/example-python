@@ -31,4 +31,5 @@ tox==3.15.0
 translate==3.5.0
 urllib3==1.25.9
 virtualenv==20.0.20
-zipp==3.1.0
+zipp==1.2.0 ; python_version == '2.7'
+zipp==3.1.0 ; python_version > '2.7'
