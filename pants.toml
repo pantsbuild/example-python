@@ -2,11 +2,10 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "1.29.0"
+pants_version = "1.30.0rc1"
 v1 =  false  # Turn off the v1 execution engine.
 v2 = true  # Enable the v2 execution engine.
 dynamic_ui = true
-enable_pantsd = true  # Enable the Pants daemon for better performance.
 
 backend_packages = []  # Deregister all v1 backends.
 
