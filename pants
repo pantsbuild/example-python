@@ -4,18 +4,30 @@
 
 # =============================== NOTE ===============================
 # This ./pants bootstrap script comes from the pantsbuild/setup
-# project and is intended to be checked into your code repository so
-# that any developer can check out your code and be building it with
-# Pants with no prior setup needed.
+# project. It is intended to be checked into your code repository so
+# that other developers have the same setup.
 #
-# You can learn more here: https://www.pantsbuild.org/install.html
+# Learn more here: https://www.pantsbuild.org/docs/installation
 # ====================================================================
 
 set -eou pipefail
 
 PYTHON_BIN_NAME="${PYTHON:-unspecified}"
 
+# Set one of these to specify a non-standard location for this script to read the pants version from.
+# NB: This will *not* cause Pants itself to use this location as a config file.
+#     You can use PANTS_CONFIG_FILES or --pants-config-files to do so.
+PANTS_INI=${PANTS_INI:-pants.ini}
+PANTS_TOML=${PANTS_TOML:-pants.toml}
+
+PANTS_BIN_NAME="${PANTS_BIN_NAME:-$0}"
+
 PANTS_HOME="${PANTS_HOME:-${XDG_CACHE_HOME:-$HOME/.cache}/pants/setup}"
+# If given a relative path, we fix it to be absolute.
+if [[ "$PANTS_HOME" != /* ]]; then
+  PANTS_HOME="${PWD}/${PANTS_HOME}"
+fi
+
 PANTS_BOOTSTRAP="${PANTS_HOME}/bootstrap-$(uname -s)-$(uname -m)"
 
 VENV_VERSION=${VENV_VERSION:-16.4.3}
@@ -51,17 +63,25 @@ function get_exe_path_or_die {
   fi
 }
 
+pants_config_file=""
+if [[ -f "${PANTS_INI}" ]]; then
+  pants_config_file="${PANTS_INI}"
+fi
+if [[ -f "${PANTS_TOML}" ]]; then
+  pants_config_file="${PANTS_TOML}"
+fi
+
 function get_pants_config_value {
   config_key="$1"
   optional_space="[[:space:]]*"
-  if [[ -f 'pants.ini' ]]; then
+  if [[ "${pants_config_file}" == *.ini ]]; then
     valid_delimiters="[:=]"
     prefix="^${config_key}${optional_space}${valid_delimiters}${optional_space}"
-    sed -ne "/${prefix}/ s#${prefix}##p" pants.ini && return 0
+    sed -ne "/${prefix}/ s#${prefix}##p" "${PANTS_INI}" && return 0
   fi
-  if [[ -f 'pants.toml' ]]; then
+  if [[ "${pants_config_file}" == *.toml ]]; then
     prefix="^${config_key}${optional_space}=${optional_space}"
-    raw_value="$(sed -ne "/${prefix}/ s#${prefix}##p" pants.toml)"
+    raw_value="$(sed -ne "/${prefix}/ s#${prefix}##p" "${PANTS_TOML}")"
     echo "${raw_value}"  | tr -d \"\' && return 0
   fi
   return 0
@@ -79,7 +99,7 @@ EOF
 # The high-level flow:
 # 1.) Resolve the Python interpreter, first reading from the env var $PYTHON,
 #     then defaulting to Python 3.6+.
-# 2.) Resolve the Pants version from pants.ini or from the latest stable
+# 2.) Resolve the Pants version from config or from the latest stable
 #     release to PyPI, so that we know what to name the venv (virtual environment) folder and what
 #     to install with Pip.
 # 3.) Check if the venv already exists via a naming convention, and create the venv if not found.
@@ -98,10 +118,10 @@ function determine_pants_version {
   fi
   pants_major_version="$(echo "${pants_version}" | cut -d '.' -f1)"
   pants_minor_version="$(echo "${pants_version}" | cut -d '.' -f2)"
-  if [[ "${pants_major_version}" -eq 1 && "${pants_minor_version}" -le 16 ]]; then
-    die "This version of the \`./pants\` script does not work with Pants <= 1.16.0. Instead,
+  if [[ "${pants_major_version}" -eq 1 && "${pants_minor_version}" -le 22 ]]; then
+    die "This version of the \`./pants\` script does not work with Pants <= 1.22.0. Instead,
 either upgrade your \`pants_version\` or use the version of the \`./pants\` script at
-https://raw.githubusercontent.com/pantsbuild/setup/3bb006e4a792ae83d7059ea76c0372ece7c1069d/pants."
+https://raw.githubusercontent.com/pantsbuild/setup/d1da382f6de0420940ec6007a39cba87c21075c6/pants."
   fi
   echo "${pants_version}"
 }
@@ -193,4 +213,4 @@ pants_dir="$(bootstrap_pants "${pants_version}" "${python}")"
 # See https://blog.phusion.nl/2017/10/13/why-ruby-app-servers-break-on-macos-high-sierra-and-what-can-be-done-about-it/
 export no_proxy='*'
 
-exec "${pants_dir}/bin/python" "${pants_dir}/bin/pants" "$@"
+exec "${pants_dir}/bin/python" "${pants_dir}/bin/pants" --pants-bin-name="${PANTS_BIN_NAME}" "$@"
