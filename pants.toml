@@ -2,15 +2,11 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "1.30.0"
-v1 =  false  # Turn off the v1 execution engine.
-v2 = true  # Enable the v2 execution engine.
+pants_version = "2.0.0.dev4"
 pantsd = true  # Enable the Pants daemon for better performance.
 
-backend_packages = []  # Deregister all v1 backends.
-
-# List v2 backends here.
-backend_packages2.add = [
+# List backends here.
+backend_packages = [
   'pants.backend.awslambda.python',
   'pants.backend.codegen.protobuf.python',
   'pants.backend.python',
@@ -20,8 +16,8 @@ backend_packages2.add = [
   'pants.backend.python.lint.isort',
 ]
 
-# List v2 plugins here.
-plugins2 = []
+# List plugins here.
+plugins = []
 
 [source]
 # The Python source root is the repo root. See https://pants.readme.io/docs/source-roots.
