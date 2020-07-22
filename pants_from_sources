@@ -36,10 +36,10 @@ function string_list() {
 }
 
 export PANTS_VERSION="$(cat "${PANTS_SOURCE}/src/python/pants/VERSION")"
-export PANTS_PLUGINS2="$(string_list plugins)"
+export PANTS_PLUGINS="$(string_list plugins)"
 export PANTS_PYTHONPATH="+$(string_list pythonpath)"
-export PANTS_BACKEND_PACKAGES2="+$(string_list backend_packages)"
-export PANTS_ENABLE_PANTSD="${ENABLE_PANTSD}"
+export PANTS_BACKEND_PACKAGES="+$(string_list backend_packages)"
+export PANTS_PANTSD="${ENABLE_PANTSD}"
 export no_proxy="*"
 
 exec "${PANTS_SOURCE}/pants" "--no-verify-config" "$@"
