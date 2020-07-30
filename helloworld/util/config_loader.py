@@ -4,7 +4,7 @@
 import pkg_resources
 from google.protobuf.json_format import Parse as parse_json
 
-from helloworld.protos.config_pb2 import Config
+from helloworld.util.proto.config_pb2 import Config
 
 
 def load_config_from_json(pkg_name: str, resource_name: str) -> Config:

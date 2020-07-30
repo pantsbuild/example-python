@@ -7,13 +7,13 @@ python_library(
     dependencies = [
         "//:setuptools",
         "//:translate",
-        "helloworld/protos",
+        "helloworld/util/proto",
     ],
     # See https://pants.readme.io/docs/python-setup-py-goal.
     provides = setup_py(
         name='helloworld.util',
         version='0.0.1',
-        description='Greeting library utilities',
+        description='Greeting library utilities.',
     ),
 )
 
