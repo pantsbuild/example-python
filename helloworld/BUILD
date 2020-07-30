@@ -40,8 +40,8 @@ python_library(
     sources = ["config.py"],
     dependencies = [
         ":config_file",
-        "helloworld/protos",
         "helloworld/util",
+        "helloworld/util/proto",
     ],
 )
 
