@@ -1,7 +1,7 @@
 # example-python
 An example repository to demonstrate Python support in Pants.
 
-See [pantsbuild.org](https://www.pantsbuild.org/docs) for much more detailed documentation.
+See [www.pantsbuild.org](https://www.pantsbuild.org/docs) for much more detailed documentation.
 
 # Running Pants
 
@@ -146,7 +146,7 @@ Try these out in this repo!
 
 ## Build an AWS Lambda
 
-(This example only works on Linux because it has an sdist. See https://pants.readme.io/docs/awslambda-python.)
+(This example only works on Linux because it has an sdist. See https://www.pantsbuild.org/docs/awslambda-python.)
 
 ```
 ./pants awslambda helloworld:helloworld-awslambda

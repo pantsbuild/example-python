@@ -9,7 +9,7 @@ python_library(
         "//:translate",
         "helloworld/util/proto",
     ],
-    # See https://pants.readme.io/docs/python-setup-py-goal.
+    # See https://www.pantsbuild.org/docs/python-setup-py-goal.
     provides = setup_py(
         name='helloworld.util',
         version='0.0.1',
