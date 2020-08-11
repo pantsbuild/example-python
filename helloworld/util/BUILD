@@ -1,7 +1,7 @@
 # Copyright 2020 Pants project contributors.
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
-# See https://pants.readme.io/docs/python-setup-py-goal.
+# See https://www.pantsbuild.org/docs/python-setup-py-goal.
 python_distribution(
   name="dist",
   dependencies=[":util"],
