@@ -1,4 +1,4 @@
-# See https://pants.readme.io/docs/using-pants-in-ci.
+# See https://www.pantsbuild.org/docs/using-pants-in-ci.
 
 [GLOBAL]
 pantsd = false

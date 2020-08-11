@@ -24,15 +24,15 @@ backend_packages2.add = [
 plugins2 = []
 
 [source]
-# The Python source root is the repo root. See https://pants.readme.io/docs/source-roots.
+# The Python source root is the repo root. See https://www.pantsbuild.org/docs/source-roots.
 root_patterns = ["/"]
 
 [python-setup]
 # The default interpreter compatibility for code in this repo. Individual targets can ovverride
 #  this with the `compatibility` field. See
-#  https://pants.readme.io/docs/python-interpreter-compatibility.
+#  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
 interpreter_constraints = [">=3.7"]
-# Use a lockfile. See https://pants.readme.io/docs/python-third-party-dependencies.
+# Use a lockfile. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
 requirement_constraints = "constraints.txt"
 
 [protoc]
