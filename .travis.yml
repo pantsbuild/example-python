@@ -23,3 +23,7 @@ install:
 script:
   - ./pants --changed-since=origin/master lint
   - ./pants --changed-since=origin/master --changed-include-dependees=transitive test
+  # Smoke test that our release process will work.
+  - ./pants binary helloworld/main.py helloworld/main_py2.py
+  - ./pants setup-py --args="bdist_wheel" helloworld/util:dist
+  - ./pants awslambda helloworld:helloworld-awslambda
