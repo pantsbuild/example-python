@@ -141,7 +141,7 @@ Try these out in this repo!
 ## Run `setup.py` commands
 
 ```
-./pants setup-py --args="bdist_wheel" helloworld/util:util_dist  # Build a wheel.
+./pants setup-py --args="bdist_wheel" helloworld/util:dist  # Build a wheel.
 ```
 
 ## Build an AWS Lambda

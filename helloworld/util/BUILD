@@ -3,7 +3,7 @@
 
 # See https://pants.readme.io/docs/python-setup-py-goal.
 python_distribution(
-  name="util-dist",
+  name="dist",
   dependencies=[":util"],
   provides=setup_py(
       name='helloworld.util',
