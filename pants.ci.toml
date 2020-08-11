@@ -1,3 +1,6 @@
+# Copyright 2020 Pants project contributors.
+# Licensed under the Apache License, Version 2.0 (see LICENSE).
+
 # See https://pants.readme.io/docs/using-pants-in-ci.
 
 [GLOBAL]
@@ -6,7 +9,7 @@ pantsd = false
 # Limit the maximum number of concurrent processes. Change this
 # to a number that makes sense for your CI setup, based on
 # the number of cores/threads.
-process_execution_local_parallelism = 4
+process_execution_local_parallelism = 2
 
 [python-setup]
 # Limit the maximum number of concurrent jobs used to resolve third
