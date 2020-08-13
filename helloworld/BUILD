@@ -10,6 +10,7 @@ python_binary(
         "//:ansicolors",
         "helloworld/greet",
     ],
+    zip_safe=False
 )
 
 # Note: Has sdist dependencies, so must be built on Linux.
