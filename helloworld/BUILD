@@ -10,6 +10,9 @@ python_binary(
         "//:ansicolors",
         "helloworld/greet",
     ],
+    # In 1.30 the default is True, but pep420 implicit namespaces don't work well with zipped pexes.
+    # In 2.x the default will be False, and we should soon fix the pep420 issues with zipped pexes anyway.
+    zip_safe=False
 )
 
 # Note: Has sdist dependencies, so must be built on Linux.
