@@ -25,6 +25,6 @@ script:
   # Smoke test that our release process will work.
   - ./pants binary helloworld/main.py helloworld/main_py2.py
   - ./pants run helloworld/main.py
-  - ./pants run helloworld/main_pb2.py
+  - ./pants run helloworld/main_py2.py
   - ./pants setup-py --args="bdist_wheel" helloworld/util:dist
   - ./pants awslambda helloworld:helloworld-awslambda
