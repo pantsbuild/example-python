@@ -6,6 +6,7 @@
 # This ./pants bootstrap script comes from the pantsbuild/setup
 # project. It is intended to be checked into your code repository so
 # that other developers have the same setup.
+
 #
 # Learn more here: https://www.pantsbuild.org/docs/installation
 # ====================================================================
@@ -19,6 +20,11 @@ PYTHON_BIN_NAME="${PYTHON:-unspecified}"
 #     You can use PANTS_CONFIG_FILES or --pants-config-files to do so.
 PANTS_INI=${PANTS_INI:-pants.ini}
 PANTS_TOML=${PANTS_TOML:-pants.toml}
+
+# NOTE: To use an unreleased version of Pants from the pantsbuild/pants master branch,
+#  locate the master branch SHA, set PANTS_SHA=<SHA> in the environment, and run this script as usual.
+#
+# E.g., PANTS_SHA=725fdaf504237190f6787dda3d72c39010a4c574 ./pants --version
 
 PANTS_BIN_NAME="${PANTS_BIN_NAME:-$0}"
 
@@ -109,6 +115,13 @@ EOF
 # are installed and up to date.
 
 function determine_pants_version {
+
+  if [ -n "${PANTS_SHA:-}" ]; then
+    # get_version_for_sha will echo the version, thus "returning" it from this function.
+    get_version_for_sha "$PANTS_SHA"
+    return
+  fi
+
   python="$1"
 
   pants_version="$(get_pants_config_value 'pants_version')"
@@ -177,11 +190,36 @@ function bootstrap_venv {
   echo "${PANTS_BOOTSTRAP}/${VENV_PACKAGE}"
 }
 
+function find_links_url {
+  local pants_version="$1"
+  local pants_sha="$2"
+
+  echo -n "https://binaries.pantsbuild.org/wheels/pantsbuild.pants/${pants_sha}/${pants_version/+/%2B}/index.html"
+}
+
+function get_version_for_sha {
+  local sha="$1"
+
+  # Retrieve the Pants version associated with this commit.
+  local pants_version
+  pants_version="$(curl --fail -sL "https://raw.githubusercontent.com/pantsbuild/pants/${sha}/src/python/pants/VERSION")"
+
+  # Construct the version as the release version from src/python/pants/VERSION, plus the string `+gitXXXXXXXX`,
+  # where the XXXXXXXX is the first 8 characters of the SHA.
+  echo "${pants_version}+git${sha:0:8}"
+}
+
 function bootstrap_pants {
   pants_version="$1"
   python="$2"
+  pants_sha="${3:-}"
 
   pants_requirement="pantsbuild.pants==${pants_version}"
+  if [[ -z "${pants_sha}" ]]; then
+    maybe_find_links=""
+  else
+    maybe_find_links="--find-links=$(find_links_url "${pants_version}" "${pants_sha}")"
+   fi
   python_major_minor_version="$(get_python_major_minor_version "${python}")"
   target_folder_name="${pants_version}_py${python_major_minor_version}"
 
@@ -189,11 +227,12 @@ function bootstrap_pants {
     (
       venv_path="$(bootstrap_venv)"
       staging_dir=$(tempdir "${PANTS_BOOTSTRAP}")
-      "${python}" "${venv_path}/virtualenv.py" --no-download "${staging_dir}/install"
-      "${staging_dir}/install/bin/pip" install -U pip
-      "${staging_dir}/install/bin/pip" install --progress-bar off "${pants_requirement}"
-      ln -s "${staging_dir}/install" "${staging_dir}/${target_folder_name}"
-      mv "${staging_dir}/${target_folder_name}" "${PANTS_BOOTSTRAP}/${target_folder_name}"
+      # shellcheck disable=SC2086
+      "${python}" "${venv_path}/virtualenv.py" --no-download "${staging_dir}/install" && \
+      "${staging_dir}/install/bin/pip" install -U pip && \
+      "${staging_dir}/install/bin/pip" install ${maybe_find_links} --progress-bar off "${pants_requirement}" && \
+      ln -s "${staging_dir}/install" "${staging_dir}/${target_folder_name}" && \
+      mv "${staging_dir}/${target_folder_name}" "${PANTS_BOOTSTRAP}/${target_folder_name}" && \
       green "New virtual environment successfully created at ${PANTS_BOOTSTRAP}/${target_folder_name}."
     ) 1>&2
   fi
@@ -204,8 +243,13 @@ function bootstrap_pants {
 cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 python="$(determine_python_exe)"
 pants_version="$(determine_pants_version "${python}")"
-pants_dir="$(bootstrap_pants "${pants_version}" "${python}")"
-
+pants_dir="$(bootstrap_pants "${pants_version}" "${python}" "${PANTS_SHA:-}")"
+pants_python="${pants_dir}/bin/python"
+pants_binary="${pants_dir}/bin/pants"
+pants_extra_args=""
+if [[ -n "${PANTS_SHA:-}" ]]; then
+  pants_extra_args="${pants_extra_args} --python-repos-repos=$(find_links_url "$pants_version" "$PANTS_SHA")"
+fi
 
 # We set the env var no_proxy to '*', to work around an issue with urllib using non
 # async-signal-safe syscalls after we fork a process that has already spawned threads.
@@ -213,4 +257,6 @@ pants_dir="$(bootstrap_pants "${pants_version}" "${python}")"
 # See https://blog.phusion.nl/2017/10/13/why-ruby-app-servers-break-on-macos-high-sierra-and-what-can-be-done-about-it/
 export no_proxy='*'
 
-exec "${pants_dir}/bin/python" "${pants_dir}/bin/pants" --pants-bin-name="${PANTS_BIN_NAME}" "$@"
+# shellcheck disable=SC2086
+exec "${pants_python}" "${pants_binary}" ${pants_extra_args} \
+  --pants-bin-name="${PANTS_BIN_NAME}" --pants-version=${pants_version} "$@"
