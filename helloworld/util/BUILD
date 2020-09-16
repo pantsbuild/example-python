@@ -16,7 +16,7 @@ python_distribution(
 # `name` defaults to the name of this directory, i.e., `util`.
 # `sources` defaults to ['*.py', '!*_test.py', '!test_*.py', '!conftest.py'].
 python_library(
-  # Pants cannot infer a dependency on Protobuf, so we explicitly add it.
+  # Pants cannot infer dependencies on Protobuf, so we explicitly add it.
   dependencies=[
       "helloworld/util/proto",
   ],
@@ -25,7 +25,7 @@ python_library(
 python_tests(
     name='tests',
     # `sources` defaults to ['*_test.py', 'test_*.py', 'conftest.py'].
-    # Pants cannot infer a dependency on JSON files, so we explicitly add it.
+    # Pants cannot infer dependencies on `resources` targets, so we explicitly add it.
     dependencies=[
         ":config_loader_test_data",
     ],

@@ -26,7 +26,7 @@ python_library(
     name="config",
     sources=["config.py"],
     dependencies=[
-        # Pants cannot infer dependencies on JSON files or Protobuf, so we explicitly
+        # Pants cannot infer dependencies on resources targets and Protobuf, so we explicitly
         # add them.
         ":config_file",
         "helloworld/util/proto",
