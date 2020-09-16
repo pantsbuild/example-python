@@ -26,5 +26,6 @@ script:
   - ./pants binary helloworld/main.py helloworld/main_py2.py
   - ./pants run helloworld/main.py
   - ./pants run helloworld/main_py2.py
-  - ./pants setup-py --args="bdist_wheel" helloworld/util:dist
-  - ./pants awslambda helloworld:helloworld-awslambda
+  # TODO: Fix PEX bug causing these to fail in CI, then reactivate when 2.0.0b1 is released.
+#  - ./pants setup-py --args="bdist_wheel" helloworld/util:dist
+#  - ./pants awslambda helloworld:helloworld-awslambda
