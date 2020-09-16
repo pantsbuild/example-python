@@ -10,11 +10,8 @@
 # Python files
 __pycache__/
 *.pyc
-/.venv/
+.venv/
 
 # Editors
 .idea/
 *.iml
-
-# Local databases.
-*.sqlite3
