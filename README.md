@@ -155,5 +155,5 @@ Try these out in this repo!
 ## Count lines of code
 
 ```
-./pants cloc '**/*'
+./pants count-loc '**/*'
 ```

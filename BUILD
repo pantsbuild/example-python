@@ -12,5 +12,13 @@
 #       python_requirement('translate>=3.2.1')
 #     ]
 #   )
+#
+# Refer to https://www.pantsbuild.org/v2.0/docs/python-third-party-dependencies.
 
-python_requirements()
+python_requirements(
+  # `setuptools` exposes a module different than the project name. We teach this to Pants so that
+  # it can correctly infer dependencies.
+  module_mapping={
+    "setuptools": ["pkg_resources"],
+  },
+)

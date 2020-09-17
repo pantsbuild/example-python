@@ -4,6 +4,7 @@
 # See https://www.pantsbuild.org/docs/python-setup-py-goal.
 python_distribution(
   name="dist",
+  # Because this has no source code, Pants cannot infer dependencies.
   dependencies=[":util"],
   provides=setup_py(
       name='helloworld.util',
@@ -12,22 +13,21 @@ python_distribution(
   ),
 )
 
+# `name` defaults to the name of this directory, i.e., `util`.
+# `sources` defaults to ['*.py', '!*_test.py', '!test_*.py', '!conftest.py'].
 python_library(
-    # `name` defaults to the name of this directory, i.e., `util`.
-    # `sources` defaults to ['*.py', '!*_test.py', '!test_*.py', '!conftest.py'].
-    dependencies=[
-        "//:setuptools",
-        "//:translate",
-        "helloworld/util/proto",
-    ],
+  # Pants cannot infer dependencies on Protobuf, so we explicitly add it.
+  dependencies=[
+      "helloworld/util/proto",
+  ],
 )
 
 python_tests(
     name='tests',
     # `sources` defaults to ['*_test.py', 'test_*.py', 'conftest.py'].
+    # Pants cannot infer dependencies on `resources` targets, so we explicitly add it.
     dependencies=[
         ":config_loader_test_data",
-        ":util",
     ],
 )
 

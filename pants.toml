@@ -27,7 +27,7 @@ root_patterns = ["/"]
 env_vars = ["LANG", "LC_ALL"]
 
 [python-setup]
-# The default interpreter compatibility for code in this repo. Individual targets can ovverride
+# The default interpreter compatibility for code in this repo. Individual targets can override
 #  this with the `compatibility` field. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
 interpreter_constraints = [">=3.7"]
@@ -42,6 +42,3 @@ config = ".flake8"
 
 [isort]
 config = [".isort.cfg"]
-
-[python-infer]
-imports = false
