@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 import random
-from typing import List
+from typing import List, cast
 
 from translate import Translator
 
@@ -18,7 +18,7 @@ class LanguageTranslator:
         if lang not in self._langs:
             raise self.UnknownLanguage(lang)
         translator = Translator(lang)
-        return translator.translate(phrase)
+        return cast(str, translator.translate(phrase))
 
     def translate_to_random_language(self, phrase: str) -> str:
         return self.translate(self._pick_random_language(), phrase)

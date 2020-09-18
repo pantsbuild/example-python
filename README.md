@@ -111,15 +111,21 @@ Try these out in this repo!
 ## List targets
 
 ```
-./pants list helloworld::  # All targets.
+./pants list ::  # All targets.
 ./pants list 'helloworld/**/*.py'  # Just targets containing Python code.
 ```
 
 ## Run linters and formatters
 
 ```
-./pants lint helloworld::
+./pants lint ::
 ./pants fmt 'helloworld/**/*.py'
+```
+
+## Run MyPy
+
+```
+./pants typecheck ::
 ```
 
 ## Run tests
