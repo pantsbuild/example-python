@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.0.0b0"
+pants_version = "2.0.0b1"
 pantsd = true  # Enable the Pants daemon for better performance.
 
 backend_packages.add = [
@@ -15,16 +15,13 @@ backend_packages.add = [
   'pants.backend.python.lint.isort',
 ]
 
-# This ensures that the result of `./pants binary` is always unique.
+# This ensures that the result of `./pants binary` is always unique. It will become the default in
+# Pants 2.1.
 pants_distdir_legacy_paths = false
 
 [source]
 # The Python source root is the repo root. See https://www.pantsbuild.org/docs/source-roots.
 root_patterns = ["/"]
-
-[subprocess-environment]
-# We pass through these environment variables to subprocesses.
-env_vars = ["LANG", "LC_ALL"]
 
 [python-setup]
 # The default interpreter compatibility for code in this repo. Individual targets can override
