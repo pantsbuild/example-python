@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.0.0b1"
+pants_version = "2.0.0b3"
 pantsd = true  # Enable the Pants daemon for better performance.
 
 backend_packages.add = [
@@ -15,7 +15,7 @@ backend_packages.add = [
   'pants.backend.python.lint.isort',
 ]
 
-# This ensures that the result of `./pants binary` is always unique. It will become the default in
+# This ensures that the result of `./pants package` is always unique. It will become the default in
 # Pants 2.1.
 pants_distdir_legacy_paths = false
 
