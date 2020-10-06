@@ -119,10 +119,10 @@ Try these out in this repo!
 ./pants test helloworld/util/lang_test.py -- -k test_language_translator  # Run just this one test.
 ```
 
-## Create a runnable binary
+## Create a PEX binary
 
 ```
-./pants binary helloworld/main.py helloworld/main_py2.py
+./pants package helloworld/main.py helloworld/main_py2.py
 ```
 
 ## Run a binary
@@ -149,7 +149,7 @@ Try these out in this repo!
 (This example only works on Linux because it has an sdist. See https://www.pantsbuild.org/docs/awslambda-python.)
 
 ```
-./pants awslambda helloworld:helloworld-awslambda
+./pants package helloworld:helloworld-awslambda
 ```
 
 ## Count lines of code
