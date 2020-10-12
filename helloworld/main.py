@@ -9,7 +9,9 @@ from helloworld.greet.greeting import Greeter
 
 def say_hello() -> None:
     config = load_config()
-    greeter = Greeter(languages=config.languages, greetings=config.greetings)
+    greeter = Greeter(
+        languages=list(config.languages), greetings=list(config.greetings)
+    )
     sentence = greeter.greet("world")
     print(green(sentence))
 
