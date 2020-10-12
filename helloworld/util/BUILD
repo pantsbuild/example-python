@@ -6,6 +6,7 @@ python_distribution(
   name="dist",
   # Because this has no source code, Pants cannot infer dependencies.
   dependencies=[":util"],
+  setup_py_commands=["bdist_wheel", "sdist"],
   provides=setup_py(
       name='helloworld.util',
       version='0.0.1',

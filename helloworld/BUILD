@@ -1,7 +1,7 @@
 # Copyright 2020 Pants project contributors.
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
-python_binary(
+pex_binary(
     # name defaults to the name of this directory, i.e., `helloworld`.
     sources=["main.py"],
     entry_point="helloworld.main",
@@ -15,7 +15,7 @@ python_awslambda(
     runtime="python3.7",
 )
 
-python_binary(
+pex_binary(
     name="helloworld_py2",
     sources=["main_py2.py"],
     entry_point="helloworld.main_py2",

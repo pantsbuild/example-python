@@ -54,6 +54,18 @@ If you want Pants itself to expand the globs (which is sometimes necessary), you
 ./pants lint 'helloworld/util/*.py'
 ```
 
+You can run on all changed files:
+
+```
+./pants --changed-since=HEAD lint
+```
+
+You can run on all changed files, and any of their "dependees":
+
+```
+./pants --changed-since=HEAD --changed-dependees=transitive test
+```
+
 ## Target specifications
 
 Targets are referenced on the command line using their address, of the form `path/to/dir:name`, e.g.,
@@ -138,11 +150,16 @@ Try these out in this repo!
 ./pants repl --shell=ipython helloworld/greet
 ```
 
-## Run `setup.py` commands
+## Build a wheel / generate `setup.py`
+
+This will build both a `.whl` bdist and a `.tar.gz` sdist.
 
 ```
-./pants setup-py --args="bdist_wheel" helloworld/util:dist  # Build a wheel.
+./pants package helloworld/util:dist
 ```
+
+We can also remove the `setup_py_commands` field from `helloworld/util/BUILD` to have Pants instead generate a 
+`setup.py` file, with all the relevant code in a chroot.
 
 ## Build an AWS Lambda
 
