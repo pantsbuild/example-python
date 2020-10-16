@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.0.0rc0"
+pants_version = "2.0.0rc1"
 pantsd = true  # Enable the Pants daemon for better performance.
 
 backend_packages.add = [
@@ -31,6 +31,11 @@ root_patterns = ["/"]
 interpreter_constraints = [">=3.7"]
 # Use a lockfile. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
 requirement_constraints = "constraints.txt"
+# We search for interpreters on both on the $PATH and in the `$(pyenv root)/versions` folder.
+#  If you're using macOS, you may want to leave off the <PATH> entry to avoid using the
+#  problematic system Pythons. See
+#  https://www.pantsbuild.org/docs/python-interpreter-compatibility#changing-the-interpreter-search-path.
+interpreter_search_paths = ["<PATH>", "<PYENV>"]
 
 [python-protobuf]
 # See https://www.pantsbuild.org/docs/protobuf.
