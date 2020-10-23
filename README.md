@@ -16,7 +16,7 @@ in `pants.toml`).
 Pants commands are called _goals_. You can get a list of goals with
 
 ```
-./pants goals
+./pants help goals
 ```
 
 # Targets
