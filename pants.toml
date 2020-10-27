@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.0.0rc3"
+pants_version = "2.0.0"
 pantsd = true  # Enable the Pants daemon for better performance.
 
 backend_packages.add = [
