@@ -14,7 +14,8 @@ backend_packages.add = [
   "pants.backend.python.lint.flake8",
   "pants.backend.python.lint.isort",
   "pants.backend.python.typecheck.mypy",
-  # Adds the `py-constraints` goal.
+  # Adds the `py-constraints` goal, as this example repository has
+  # both Python 2 and Python 3 code.
   "pants.backend.python.mixed_interpreter_constraints",
 ]
 
