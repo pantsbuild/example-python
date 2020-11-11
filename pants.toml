@@ -2,23 +2,22 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.0.0"
+pants_version = "2.1.0rc0"
 pantsd = true  # Enable the Pants daemon for better performance.
 
 backend_packages.add = [
-  'pants.backend.awslambda.python',
-  'pants.backend.codegen.protobuf.python',
-  'pants.backend.python',
-  'pants.backend.python.lint.docformatter',
-  'pants.backend.python.lint.black',
-  'pants.backend.python.lint.flake8',
-  'pants.backend.python.lint.isort',
-  'pants.backend.python.typecheck.mypy',
+  "pants.backend.awslambda.python",
+  "pants.backend.codegen.protobuf.python",
+  "pants.backend.python",
+  "pants.backend.python.lint.docformatter",
+  "pants.backend.python.lint.black",
+  "pants.backend.python.lint.flake8",
+  "pants.backend.python.lint.isort",
+  "pants.backend.python.typecheck.mypy",
+  # Adds the `py-constraints` goal, as this example repository has
+  # both Python 2 and Python 3 code.
+  "pants.backend.python.mixed_interpreter_constraints",
 ]
-
-# This ensures that the result of `./pants package` is always unique. It will become the default in
-# Pants 2.1.
-pants_distdir_legacy_paths = false
 
 [source]
 # The Python source root is the repo root. See https://www.pantsbuild.org/docs/source-roots.
@@ -26,10 +25,10 @@ root_patterns = ["/"]
 
 [python-setup]
 # The default interpreter compatibility for code in this repo. Individual targets can override
-#  this with the `compatibility` field. See
+#  this with the `interpreter_constraints` field. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
 interpreter_constraints = [">=3.7"]
-# Use a lockfile. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
+# Use a constraints file. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
 requirement_constraints = "constraints.txt"
 # We search for interpreters on both on the $PATH and in the `$(pyenv root)/versions` folder.
 #  If you're using macOS, you may want to leave off the <PATH> entry to avoid using the

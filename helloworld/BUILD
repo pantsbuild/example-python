@@ -19,7 +19,7 @@ pex_binary(
     name="helloworld_py2",
     sources=["main_py2.py"],
     entry_point="helloworld.main_py2",
-    compatibility=">=2.7,<3",
+    interpreter_constraints=["==2.7.*"],
 )
 
 python_library(
