@@ -160,7 +160,6 @@ function determine_default_python_exe {
     fi
     echo "${interpreter_path}" && return 0
   done
-  die "No valid Python interpreter found. "
 }
 
 function determine_python_exe {
@@ -174,7 +173,7 @@ function determine_python_exe {
   else
     python_bin_name="$(determine_default_python_exe)"
     if [[ -z "${python_bin_name}" ]]; then
-      die "No valid Python interpreter found. ${requirement_str}"
+      die "No valid Python interpreter found. ${requirement_str} Please check that a valid interpreter is installed and on your \$PATH."
     fi
   fi
   local python_exe
