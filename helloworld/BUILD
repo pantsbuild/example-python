@@ -7,19 +7,24 @@ pex_binary(
     entry_point="helloworld.main",
 )
 
-# Note: Has sdist dependencies, so must be built on Linux.
-python_awslambda(
-    name="helloworld-awslambda",
-    sources=["awslambda.py"],
-    handler="helloworld.awslambda:handler",
-    runtime="python3.7",
-)
-
 pex_binary(
     name="helloworld_py2",
     sources=["main_py2.py"],
     entry_point="helloworld.main_py2",
     interpreter_constraints=["==2.7.*"],
+)
+
+python_library(
+  name="awslambda_lib",
+  sources=["awslambda.py"],
+)
+
+# Note: This has sdist dependencies, so it must be built on Linux.
+python_awslambda(
+    name="helloworld-awslambda",
+    dependencies=[":awslambda_lib"],
+    handler="helloworld.awslambda:handler",
+    runtime="python3.7",
 )
 
 python_library(
