@@ -6,19 +6,19 @@
 # with the name of the corresponding dist.
 #
 # For example, `translate>=3.2.1` expands to:
+#
 #   python_requirement_library(
 #     name='translate',
-#     requirements=[
-#       python_requirement('translate>=3.2.1')
-#     ]
+#     requirements=['translate>=3.2.1']
 #   )
 #
-# Refer to https://www.pantsbuild.org/v2.0/docs/python-third-party-dependencies.
-
+# We set `module_mapping` for any requirements whose module names differ from the project's name so that dependency
+# inference works.
+#
+# Refer to https://www.pantsbuild.org/docs/python-third-party-dependencies.
 python_requirements(
-  # `setuptools` exposes a module different than the project name. We teach this to Pants so that
-  # it can correctly infer dependencies.
   module_mapping={
+    "ansicolors": ["colors"],
     "setuptools": ["pkg_resources"],
   },
 )
