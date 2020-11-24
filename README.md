@@ -144,7 +144,7 @@ Try these out in this repo!
 ## Create a PEX binary
 
 ```
-./pants package helloworld/main.py helloworld/main_py2.py
+./pants package helloworld/main.py
 ```
 
 ## Run a binary

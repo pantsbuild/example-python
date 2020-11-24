@@ -1,17 +1,10 @@
 # Copyright 2020 Pants project contributors.
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
+# `name` defaults to the name of this directory, i.e., `helloworld`.
 pex_binary(
-    # name defaults to the name of this directory, i.e., `helloworld`.
     sources=["main.py"],
     entry_point="helloworld.main",
-)
-
-pex_binary(
-    name="helloworld_py2",
-    sources=["main_py2.py"],
-    entry_point="helloworld.main_py2",
-    interpreter_constraints=["==2.7.*"],
 )
 
 python_library(
@@ -27,15 +20,11 @@ python_awslambda(
     runtime="python3.7",
 )
 
+# Pants cannot infer dependencies on resources targets and Protobuf, so we explicitly add them.
 python_library(
     name="config",
     sources=["config.py"],
-    dependencies=[
-        # Pants cannot infer dependencies on resources targets and Protobuf, so we explicitly
-        # add them.
-        ":config_file",
-        "helloworld/util/proto",
-    ],
+    dependencies=[":config_file", "helloworld/util/proto"],
 )
 
 resources(

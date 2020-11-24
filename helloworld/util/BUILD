@@ -1,38 +1,34 @@
 # Copyright 2020 Pants project contributors.
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
-# See https://www.pantsbuild.org/docs/python-setup-py-goal.
-python_distribution(
-  name="dist",
-  # Because this has no source code, Pants cannot infer dependencies.
-  dependencies=[":util"],
-  setup_py_commands=["bdist_wheel", "sdist"],
-  provides=setup_py(
-      name='helloworld.util',
-      version='0.0.1',
-      description='Greeting library utilities.',
-  ),
-)
-
 # `name` defaults to the name of this directory, i.e., `util`.
 # `sources` defaults to ['*.py', '!*_test.py', '!test_*.py', '!conftest.py'].
+# `dependencies` is set because only Pants 2.2+ can infer dependencies on Protobuf.
 python_library(
-  # Pants cannot infer dependencies on Protobuf, so we explicitly add it.
-  dependencies=[
-      "helloworld/util/proto",
-  ],
+    dependencies=["helloworld/util/proto"],
 )
 
+# `sources` defaults to ['*_test.py', 'test_*.py', 'conftest.py'].
+# Pants cannot infer dependencies on `resources` targets, so we explicitly add the dep.
 python_tests(
     name='tests',
-    # `sources` defaults to ['*_test.py', 'test_*.py', 'conftest.py'].
-    # Pants cannot infer dependencies on `resources` targets, so we explicitly add it.
-    dependencies=[
-        ":config_loader_test_data",
-    ],
+    dependencies=[":test_data"],
 )
 
 resources(
-    name='config_loader_test_data',
-    sources=['config_loader_test_data.json'],
+    name='test_data',
+    sources=['*_test_data.json'],
+)
+
+# See https://www.pantsbuild.org/docs/python-distributions.
+# Because this target has no source code, Pants cannot infer dependencies.
+python_distribution(
+    name="dist",
+    dependencies=[":util"],
+    setup_py_commands=["bdist_wheel", "sdist"],
+    provides=setup_py(
+        name='helloworld.util',
+        version='0.0.1',
+        description='Greeting library utilities.',
+    ),
 )
