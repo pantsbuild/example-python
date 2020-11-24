@@ -3,14 +3,9 @@
 
 # `name` defaults to the name of this directory, i.e., `proto`.
 # `sources` defaults to ["*.proto"].
-protobuf_library(dependencies=[":init"])
+protobuf_library()
 
-
-# Note that we need an `__init__.py` file for MyPy to recognize our generated code as a valid
-# module. We include this in the dependencies for the `protobuf_library` to ensure the
-# `__init__.py` is always used.
-#
-# Often, you won't want to put `__init__.py` files in your Protobuf directories; see
-# https://www.pantsbuild.org/docs/protobuf#protobuf-and-source-roots for how to change where the
-# protobuf code is generated.
-python_library(name="init")
+# Note that we have an empty `__init__.py` file in this folder. Pants will generate
+# `helloworld/util/proto/config_pb2.py`, and we need an `__init__.py` file in the folder for that file to be properly
+# recognized. Pants will automatically use this `__init__.py` file if it exists, even though we don't have a
+# `python_library` target here.
