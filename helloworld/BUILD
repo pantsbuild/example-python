@@ -3,19 +3,19 @@
 
 # `name` defaults to the name of this directory, i.e., `helloworld`.
 pex_binary(
-    sources=["main.py"],
-    entry_point="helloworld.main",
+    entry_point="main.py",
 )
 
+# A library that owns all Python code in this directory, other that `config.py`: see below!
 python_library(
-  name="awslambda_lib",
-  sources=["awslambda.py"],
+    name="lib",
+    sources=["*.py", "!config.py"],
 )
 
 # Note: This has sdist dependencies, so it must be built on Linux.
 python_awslambda(
     name="helloworld-awslambda",
-    dependencies=[":awslambda_lib"],
+    dependencies=[":lib"],
     handler="helloworld.awslambda:handler",
     runtime="python3.7",
 )
