@@ -1,33 +1,37 @@
 # Copyright 2020 Pants project contributors.
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
-# `name` defaults to the name of this directory, i.e., `helloworld`.
-pex_binary(
-    sources=["main.py"],
-    entry_point="helloworld.main",
-)
-
+# This target sets the metadata for all the Python non-test files in this directory.
+#
+# * `name` defaults to the name of this directory, i.e., `helloworld`.
+# * `sources` defaults to ['*.py', '!*_test.py', '!test_*.py', '!conftest.py'].
+# * Pants cannot infer dependencies on resources targets, so we explicitly add it.
 python_library(
-  name="awslambda_lib",
-  sources=["awslambda.py"],
+    dependencies=[":config_file"],
 )
 
-# Note: This has sdist dependencies, so it must be built on Linux.
-python_awslambda(
-    name="helloworld-awslambda",
-    dependencies=[":awslambda_lib"],
-    handler="helloworld.awslambda:handler",
-    runtime="python3.7",
-)
-
-# Pants cannot infer dependencies on resources targets and Protobuf, so we explicitly add them.
-python_library(
-    name="config",
-    sources=["config.py"],
-    dependencies=[":config_file", "helloworld/util/proto"],
-)
-
+# This target sets the metadata for the JSON file in this directory, which allows for other targets
+#  to depend on it.
 resources(
     name="config_file",
     sources=["config.json"],
+)
+
+# This target allows us to bundle our app into a PEX binary file via
+#  `./pants package`. We can also run it with `./pants run`. See
+#  https://www.pantsbuild.org/docs/python-package-goal and
+#  https://www.pantsbuild.org/docs/python-run-goal.
+pex_binary(
+    name="pex_binary",
+    entry_point="main.py",
+)
+
+# This target allows us to create an AWS Lambda binary via `./pants package`.
+#  See https://www.pantsbuild.org/docs/awslambda-python.
+#
+# Note: This has sdist dependencies, so it must be built on Linux.
+python_awslambda(
+    name="awslambda",
+    handler="awslambda.py:handler",
+    runtime="python3.7",
 )

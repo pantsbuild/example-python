@@ -1,8 +1,11 @@
 # Copyright 2020 Pants project contributors.
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
-# `name` defaults to the name of this directory, i.e., `proto`.
-# `sources` defaults to ["*.proto"].
+# This target sets the metadata for all the `.proto` files in this directory.
+#  See https://www.pantsbuild.org/docs/protobuf.
+#
+# * `name` defaults to the name of this directory, i.e., `proto`.
+# * `sources` defaults to ["*.proto"].
 protobuf_library()
 
 # Note that we have an empty `__init__.py` file in this folder. Pants will generate
