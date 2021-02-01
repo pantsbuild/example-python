@@ -17,8 +17,7 @@ python_tests(
     dependencies=[":test_data"],
 )
 
-# This target sets the metadata for the JSON file in this directory, which allows for other targets
-#  to depend on it.
+# This target teaches Pants about our JSON file, which allows for other targets to depend on it.
 resources(
     name='test_data',
     sources=['*_test_data.json'],

@@ -10,8 +10,7 @@ python_library(
     dependencies=[":config_file"],
 )
 
-# This target sets the metadata for the JSON file in this directory, which allows for other targets
-#  to depend on it.
+# This target teaches Pants about our JSON file, which allows for other targets to depend on it.
 resources(
     name="config_file",
     sources=["config.json"],
