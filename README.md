@@ -25,11 +25,11 @@ Pants commands are called _goals_. You can get a list of goals with
 
 # Targets
 
-Targets are sets of source files with some attached metadata. Targets are provided in `BUILD` files.
-Targets have types, such as `python_library`, `resources`, `python_binary`. Examples of metadata include
-timeouts for tests, Python interpreter constraints, entry points for binaries, and so on.
+Targets are a way of setting metadata for some part of your code, such as timeouts for tests and 
+entry points for binaries. Targets have types like `python_binary`, `resources`, and 
+`pex_binary`. They are defined in `BUILD` files.
 
-Pants goals can be invoked on targets or directly on source files/directories (which is often more intuitive and convenient).
+Pants goals can be invoked on targets or directly on source files (which is often more intuitive and convenient).
 In the latter case, Pants locates target metadata for the source files as needed.
 
 ## File specifications
@@ -176,7 +176,7 @@ We can also remove the `setup_py_commands` field from `helloworld/util/BUILD` to
 (This example only works on Linux because it has an sdist. See https://www.pantsbuild.org/docs/awslambda-python.)
 
 ```
-./pants package helloworld:helloworld-awslambda
+./pants package helloworld/awslambda.py
 ```
 
 ## Count lines of code
