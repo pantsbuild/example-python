@@ -2,9 +2,9 @@ name: Pants
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -16,7 +16,14 @@ jobs:
         python-version: [3.7]
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
+    - uses: actions/cache@v2
+      id: cache
+      with:
+        path: |
+          ~/.cache/pants/setup
+          ~/.cache/pants/lmdb_store
+        key: ${{ runner.os }}-
+    - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
@@ -25,7 +32,12 @@ jobs:
         ./pants --version
     - name: Lint
       run: | 
-        ./pants lint ::
+        ./pants lint typecheck ::
     - name: Test
       run: |
         ./pants test ::
+    - name: Package / Run
+      run: |
+        # We also smoke test that our release process will work by running `package`.
+        ./pants package ::
+        ./pants run helloworld/main.py
