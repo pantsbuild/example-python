@@ -21,6 +21,8 @@ backend_packages.add = [
 root_patterns = ["/"]
 
 [python-setup]
+# Use pip 2020 resolver which will become the default in Pants v2.4.x.
+resolver_version = "pip-2020-resolver"
 # The default interpreter compatibility for code in this repo. Individual targets can override
 #  this with the `interpreter_constraints` field. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
