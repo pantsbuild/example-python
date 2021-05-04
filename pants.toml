@@ -46,3 +46,8 @@ config = [".isort.cfg"]
 
 [mypy]
 config = "build-support/mypy.ini"
+
+[lambdex]
+version = "lambdex==0.1.4"
+extra_requirements = []
+
