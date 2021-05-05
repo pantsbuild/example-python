@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.3.1rc0"
+pants_version = "2.4.1rc1"
 pantsd = true  # Enable the Pants daemon for better performance.
 
 backend_packages.add = [
@@ -21,8 +21,6 @@ backend_packages.add = [
 root_patterns = ["/"]
 
 [python-setup]
-# Use pip 2020 resolver which will become the default in Pants v2.4.x.
-resolver_version = "pip-2020-resolver"
 # The default interpreter compatibility for code in this repo. Individual targets can override
 #  this with the `interpreter_constraints` field. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
@@ -48,3 +46,8 @@ config = [".isort.cfg"]
 
 [mypy]
 config = "build-support/mypy.ini"
+
+[lambdex]
+version = "lambdex==0.1.4"
+extra_requirements = []
+
