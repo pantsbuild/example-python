@@ -140,10 +140,16 @@ function set_supported_python_versions {
     supported_python_versions_decimal=('3.7' '3.8' '3.6')
     supported_python_versions_int=('37' '38' '36')
     supported_message='3.7, 3.8, or 3.6 (deprecated)'
-  else
-    supported_python_versions_decimal=('3.7' '3.8')
-    supported_python_versions_int=('37' '38')
+  elif [[ "${pants_major_version}" -eq 2 && "${pants_minor_version}" -lt 5 ]]; then
+    supported_python_versions_decimal=('3.8' '3.7')
+    supported_python_versions_int=('38' '37')
     supported_message='3.7 or 3.8'
+  else
+    # We put 3.9 first because Apple Silicon only works properly with Python 3.9, even though it's possible to have
+    # older Pythons installed. This makes it more likely that Pants will work out-of-the-box.
+    supported_python_versions_decimal=('3.9' '3.8' '3.7')
+    supported_python_versions_int=('39' '38' '37')
+    supported_message='3.7, 3.8, or 3.9'
   fi
 }
 
@@ -271,12 +277,6 @@ pants_extra_args=""
 if [[ -n "${PANTS_SHA:-}" ]]; then
   pants_extra_args="${pants_extra_args} --python-repos-repos=$(find_links_url "$pants_version" "$PANTS_SHA")"
 fi
-
-# We set the env var no_proxy to '*', to work around an issue with urllib using non
-# async-signal-safe syscalls after we fork a process that has already spawned threads.
-#
-# See https://blog.phusion.nl/2017/10/13/why-ruby-app-servers-break-on-macos-high-sierra-and-what-can-be-done-about-it/
-export no_proxy='*'
 
 # shellcheck disable=SC2086
 exec "${pants_python}" "${pants_binary}" ${pants_extra_args} \
