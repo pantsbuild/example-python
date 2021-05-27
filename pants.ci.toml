@@ -4,15 +4,7 @@
 # See https://www.pantsbuild.org/docs/using-pants-in-ci.
 
 [GLOBAL]
-pantsd = false
+colors = true
 
-# Limit the maximum number of concurrent processes. Change this
-# to a number that makes sense for your CI setup, based on
-# the number of cores/threads.
-process_execution_local_parallelism = 2
-
-[python-setup]
-# Limit the maximum number of concurrent jobs used to resolve third
-# party dependencies. The total level of parallelism will be
-# `process_execution_local_parallelism x resolver_jobs`.
-resolver_jobs = 1
+[pytest]
+args = ["-vv", "--no-header"]

@@ -16,9 +16,10 @@ cache:
   directories:
     - $HOME/.cache/pants/setup
     - $HOME/.cache/pants/lmdb_store
+    - $HOME/.cache/pants/named_caches
 
 install:
-  - ./pants --version  # This will bootstrap Pants
+  - ./pants --version  # Bootstrap Pants.
 
 script:
   # We also smoke test that our release process will work by running `package`.
