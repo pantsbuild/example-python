@@ -2,8 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.5.0rc2"
-pantsd = true  # Enable the Pants daemon for better performance.
+pants_version = "2.5.0"
 
 backend_packages.add = [
   "pants.backend.awslambda.python",
@@ -37,17 +36,3 @@ interpreter_search_paths = ["<PATH>", "<PYENV>"]
 # See https://www.pantsbuild.org/docs/protobuf.
 runtime_dependencies = ["//:protobuf"]
 mypy_plugin = true
-
-[flake8]
-config = "build-support/.flake8"
-
-[isort]
-config = [".isort.cfg"]
-
-[mypy]
-config = "build-support/mypy.ini"
-
-[lambdex]
-version = "lambdex==0.1.4"
-extra_requirements = []
-

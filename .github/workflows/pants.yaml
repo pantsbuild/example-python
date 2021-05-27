@@ -27,15 +27,16 @@ jobs:
         path: |
           ~/.cache/pants/setup
           ~/.cache/pants/lmdb_store
+          ~/.cache/pants/named_caches
         key: ${{ runner.os }}-
     - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: bootstrap
+    - name: Bootstrap Pants
       run: |
         ./pants --version
-    - name: Lint
+    - name: Lint and typechck
       run: | 
         ./pants lint typecheck ::
     - name: Test
@@ -46,3 +47,9 @@ jobs:
         # We also smoke test that our release process will work by running `package`.
         ./pants package ::
         ./pants run helloworld/main.py
+    - name: Upload pants log
+      uses: actions/upload-artifact@v2
+      with:
+        name: pants-log
+        path: .pants.d/pants.log
+      if: always()  # We want the log even on failures.
