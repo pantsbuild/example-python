@@ -34,10 +34,24 @@ fi
 
 PANTS_BOOTSTRAP="${PANTS_SETUP_CACHE}/bootstrap-$(uname -s)-$(uname -m)"
 
-VIRTUALENV_ZIPAPP=virtualenv.pyz
+PEX_VERSION=2.1.42
+PEX_URL="https://github.com/pantsbuild/pex/releases/download/v${PEX_VERSION}/pex"
+PEX_EXPECTED_SHA256="69d6b1b1009b00dd14a3a9f19b72cff818a713ca44b3186c9b12074b2a31e51f"
+
 VIRTUALENV_VERSION=20.4.7
-VIRTUALENV_ZIPAPP_URL="https://raw.githubusercontent.com/pypa/get-virtualenv/${VIRTUALENV_VERSION}/public/${VIRTUALENV_ZIPAPP}"
-VIRTUALENV_ZIPAPP_EXPECTED_SHA256="9d5c8b09cdeaf44414f07902d2ae45c4bb8a2085717d66f82ae389a9c6f94425"
+VIRTUALENV_REQUIREMENTS=$(
+cat << EOF
+virtualenv==${VIRTUALENV_VERSION} --hash sha256:2b0126166ea7c9c3661f5b8e06773d28f83322de7a3ff7d06f0aed18c9de6a76
+filelock==3.0.12 --hash sha256:929b7d63ec5b7d6b71b0fa5ac14e030b3f70b75747cef1b10da9b879fef15836
+six==1.16.0 --hash sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254
+distlib==0.3.2 --hash sha256:23e223426b28491b1ced97dc3bbe183027419dfc7982b4fa2f05d5f3ff10711c
+appdirs==1.4.4 --hash sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128
+importlib-resources==5.1.4; python_version < "3.7" --hash sha256:e962bff7440364183203d179d7ae9ad90cb1f2b74dcb84300e88ecc42dca3351
+importlib-metadata==4.5.0; python_version < "3.8" --hash sha256:833b26fb89d5de469b24a390e9df088d4e52e4ba33b01dc5e0e4f41b81a16c00
+zipp==3.4.1; python_version < "3.10" --hash sha256:51cb66cc54621609dd593d1787f286ee42a5c0adbb4b29abea5a63edc3e03098
+typing-extensions==3.10.0.0; python_version < "3.8" --hash sha256:779383f6086d90c99ae41cf0ff39aac8a7937a9283ce0a414e5dd782f4c94a84
+EOF
+)
 
 COLOR_RED="\x1b[31m"
 COLOR_GREEN="\x1b[32m"
@@ -213,25 +227,46 @@ EOF
 # TODO(John Sirois): GC race loser tmp dirs leftover from bootstrap_XXX
 # functions.  Any tmp dir w/o a symlink pointing to it can go.
 
-function bootstrap_virtualenv {
+function bootstrap_pex {
   local python="$1"
-  local bootstrapped="${PANTS_BOOTSTRAP}/virtualenv-${VIRTUALENV_VERSION}/${VIRTUALENV_ZIPAPP}"
+  local bootstrapped="${PANTS_BOOTSTRAP}/pex-${PEX_VERSION}/pex"
   if [[ ! -f "${bootstrapped}" ]]; then
     (
-      green "Downloading the virtualenv zipapp"
+      green "Downloading the Pex PEX."
       mkdir -p "${PANTS_BOOTSTRAP}"
       local staging_dir
       staging_dir=$(tempdir "${PANTS_BOOTSTRAP}")
       cd "${staging_dir}"
-      curl -LO "${VIRTUALENV_ZIPAPP_URL}"
-      fingerprint="$(compute_sha256 "${python}" "${VIRTUALENV_ZIPAPP}")"
-      if [[ "${VIRTUALENV_ZIPAPP_EXPECTED_SHA256}" != "${fingerprint}" ]]; then
-        die "SHA256 of ${VIRTUALENV_ZIPAPP_URL} is not as expected. Aborting."
+      curl -LO "${PEX_URL}"
+      fingerprint="$(compute_sha256 "${python}" "pex")"
+      if [[ "${PEX_EXPECTED_SHA256}" != "${fingerprint}" ]]; then
+        die "SHA256 of ${PEX_URL} is not as expected. Aborting."
       fi
-      green "SHA256 fingerprint of ${VIRTUALENV_ZIPAPP_URL} verified."
+      green "SHA256 fingerprint of ${PEX_URL} verified."
       mkdir -p "$(dirname "${bootstrapped}")"
-      mv -f "${staging_dir}/${VIRTUALENV_ZIPAPP}" "${bootstrapped}"
+      mv -f "${staging_dir}/pex" "${bootstrapped}"
       rmdir "${staging_dir}"
+    ) 1>&2 || exit 1
+  fi
+  echo "${bootstrapped}"
+}
+
+function bootstrap_virtualenv {
+  local python="$1"
+  local bootstrapped="${PANTS_BOOTSTRAP}/virtualenv-${VIRTUALENV_VERSION}/virtualenv.pex"
+  if [[ ! -f "${bootstrapped}" ]]; then
+    (
+      green "Creating the virtualenv PEX."
+      pex_path="$(bootstrap_pex "${python}")" || exit 1
+      mkdir -p "${PANTS_BOOTSTRAP}"
+      local staging_dir
+      staging_dir=$(tempdir "${PANTS_BOOTSTRAP}")
+      cd "${staging_dir}"
+      echo "${VIRTUALENV_REQUIREMENTS}" > requirements.txt
+      "${python}" "${pex_path}" -r requirements.txt -c virtualenv -o virtualenv.pex
+      mkdir -p "$(dirname "${bootstrapped}")"
+      mv -f "${staging_dir}/virtualenv.pex" "${bootstrapped}"
+      rm -rf "${staging_dir}"
     ) 1>&2 || exit 1
   fi
   echo "${bootstrapped}"
