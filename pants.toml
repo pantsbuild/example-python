@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.5.0"
+pants_version = "2.5.1"
 
 backend_packages.add = [
   "pants.backend.awslambda.python",
@@ -14,6 +14,10 @@ backend_packages.add = [
   "pants.backend.python.lint.isort",
   "pants.backend.python.typecheck.mypy",
 ]
+
+[anonymous-telemetry]
+enabled = true
+repo_id = "3B1D361B-E9F1-49A8-B761-03DCC41FD58E"
 
 [source]
 # The Python source root is the repo root. See https://www.pantsbuild.org/docs/source-roots.
