@@ -13,6 +13,7 @@ backend_packages.add = [
   "pants.backend.python.lint.flake8",
   "pants.backend.python.lint.isort",
   "pants.backend.python.typecheck.mypy",
+  "pants.backend.experimental.docker",
 ]
 
 [anonymous-telemetry]

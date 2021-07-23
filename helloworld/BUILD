@@ -23,6 +23,9 @@ resources(
 pex_binary(
     name="pex_binary",
     entry_point="main.py",
+
+    # needed when used in the Docker image, in case pants is running on a incompatible platform
+    platforms=['linux-x86_64-cp-38-cp38']
 )
 
 # This target allows us to create an AWS Lambda binary via `./pants package`.
