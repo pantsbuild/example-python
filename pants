@@ -168,8 +168,19 @@ function set_supported_python_versions {
   fi
 }
 
+function check_python_exe_compatible_version {
+  local python_exe="$1"
+  local major_minor_version
+  major_minor_version="$(get_python_major_minor_version "${python_exe}")"
+  for valid_version in "${supported_python_versions_int[@]}"; do
+    if [[ "${major_minor_version}" == "${valid_version}" ]]; then
+      echo "${python_exe}" && return 0
+    fi
+  done
+}
+
 function determine_default_python_exe {
-  for version in "${supported_python_versions_decimal[@]}"; do
+  for version in "${supported_python_versions_decimal[@]}" "3" ""; do
     local interpreter_path
     interpreter_path="$(command -v "python${version}")"
     if [[ -z "${interpreter_path}" ]]; then
@@ -179,7 +190,9 @@ function determine_default_python_exe {
     if [[ "$("${interpreter_path}" --version 2>&1 > /dev/null)" == "pyenv: python${version}"* ]]; then
       continue
     fi
-    echo "${interpreter_path}" && return 0
+    if [[ -n "$(check_python_exe_compatible_version "${interpreter_path}")" ]]; then
+      echo "${interpreter_path}" && return 0
+    fi
   done
 }
 
@@ -188,25 +201,19 @@ function determine_python_exe {
   set_supported_python_versions "${pants_version}"
   local requirement_str="For \`pants_version = \"${pants_version}\"\`, Pants requires Python ${supported_message} to run."
 
-  local python_bin_name
+  local python_exe
   if [[ "${PYTHON_BIN_NAME}" != 'unspecified' ]]; then
-    python_bin_name="${PYTHON_BIN_NAME}"
+    python_exe="$(get_exe_path_or_die "${PYTHON_BIN_NAME}")" || exit 1
+    if [[ -z "$(check_python_exe_compatible_version "${python_exe}")" ]]; then
+      die "Invalid Python interpreter version for ${python_exe}. ${requirement_str}"
+    fi
   else
-    python_bin_name="$(determine_default_python_exe)"
-    if [[ -z "${python_bin_name}" ]]; then
+    python_exe="$(determine_default_python_exe)"
+    if [[ -z "${python_exe}" ]]; then
       die "No valid Python interpreter found. ${requirement_str} Please check that a valid interpreter is installed and on your \$PATH."
     fi
   fi
-  local python_exe
-  python_exe="$(get_exe_path_or_die "${python_bin_name}")" || exit 1
-  local major_minor_version
-  major_minor_version="$(get_python_major_minor_version "${python_exe}")"
-  for valid_version in "${supported_python_versions_int[@]}"; do
-    if [[ "${major_minor_version}" == "${valid_version}" ]]; then
-      echo "${python_exe}" && return 0
-    fi
-  done
-  die "Invalid Python interpreter version for ${python_exe}. ${requirement_str}"
+  echo "${python_exe}"
 }
 
 function compute_sha256 {
