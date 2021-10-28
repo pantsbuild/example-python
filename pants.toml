@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.7.0"
+pants_version = "2.7.1"
 backend_packages.add = [
   "pants.backend.awslambda.python",
   "pants.backend.codegen.protobuf.python",
