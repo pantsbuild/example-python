@@ -4,8 +4,6 @@
 [GLOBAL]
 pants_version = "2.7.1"
 backend_packages.add = [
-  "pants.backend.awslambda.python",
-  "pants.backend.codegen.protobuf.python",
   "pants.backend.python",
   "pants.backend.python.lint.docformatter",
   "pants.backend.python.lint.black",
@@ -26,7 +24,7 @@ root_patterns = ["/"]
 # The default interpreter compatibility for code in this repo. Individual targets can override
 #  this with the `interpreter_constraints` field. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
-interpreter_constraints = [">=3.7"]
+interpreter_constraints = [">=3.9"]
 # Use a constraints file. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
 requirement_constraints = "constraints.txt"
 # We search for interpreters on both on the $PATH and in the `$(pyenv root)/versions` folder.
@@ -34,8 +32,3 @@ requirement_constraints = "constraints.txt"
 #  problematic system Pythons. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility#changing-the-interpreter-search-path.
 interpreter_search_paths = ["<PATH>", "<PYENV>"]
-
-[python-protobuf]
-# See https://www.pantsbuild.org/docs/protobuf.
-runtime_dependencies = ["//:protobuf"]
-mypy_plugin = true

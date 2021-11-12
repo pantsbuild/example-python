@@ -171,14 +171,6 @@ This will build both a `.whl` bdist and a `.tar.gz` sdist.
 We can also remove the `setup_py_commands` field from `helloworld/util/BUILD` to have Pants instead generate a 
 `setup.py` file, with all the relevant code in a chroot.
 
-## Build an AWS Lambda
-
-(This example only works on Linux because it has an sdist. See https://www.pantsbuild.org/docs/awslambda-python.)
-
-```
-./pants package helloworld/awslambda.py
-```
-
 ## Count lines of code
 
 ```

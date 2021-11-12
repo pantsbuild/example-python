@@ -8,13 +8,11 @@ importlib-metadata==4.6.3
 libretranslatepy==2.1.1
 lxml==4.6.3
 pip==21.2.2
-protobuf==3.17.3
 requests==2.26.0
 setuptools==56.2.0
 six==1.16.0
 translate==3.6.1
 types-futures==0.1.6
-types-protobuf==3.17.4
 types-setuptools==57.0.0
 typing-extensions==3.10.0.0
 urllib3==1.26.6
