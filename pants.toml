@@ -24,7 +24,7 @@ root_patterns = ["/"]
 # The default interpreter compatibility for code in this repo. Individual targets can override
 #  this with the `interpreter_constraints` field. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
-interpreter_constraints = [">=3.9"]
+interpreter_constraints = [">=3.7"]
 # Use a constraints file. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
 requirement_constraints = "constraints.txt"
 # We search for interpreters on both on the $PATH and in the `$(pyenv root)/versions` folder.
