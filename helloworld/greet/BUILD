@@ -14,7 +14,7 @@ python_tests(
     name="tests",
 )
 
-# This target teaches Pants about our JSON file, which allows for other targets to depend on it.
+# This target teaches Pants about our JSON file, which allows other targets to depend on it.
 resources(
     name="translations",
     sources=["translations.json"],

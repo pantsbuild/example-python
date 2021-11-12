@@ -2,10 +2,14 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 # This target sets the metadata for all the Python non-test files in this directory.
-python_library(name="lib")
+python_library(
+    name="lib",
+)
 
 # This target sets the metadata for all the Python test files in this directory.
-python_tests(name="tests")
+python_tests(
+    name="tests",
+)
 
 # This target allows us to build a `.whl` bdist and a `.tar.gz` sdist by auto-generating
 #  `setup.py`. See https://www.pantsbuild.org/docs/python-distributions.
