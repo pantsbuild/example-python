@@ -45,6 +45,8 @@ jobs:
     - name: Bootstrap Pants
       run: |
         ./pants --version
+    - name: Check BUILD files
+      run: ./pants tailor --check update-build-files --check
     - name: Lint and typechck
       run: | 
         ./pants lint typecheck ::

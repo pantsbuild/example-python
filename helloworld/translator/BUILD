@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 # This target sets the metadata for all the Python non-test files in this directory.
-python_library(
+python_sources(
     name="lib",
 )
 
@@ -20,10 +20,11 @@ python_tests(
 python_distribution(
     name="dist",
     dependencies=[":lib"],
-    setup_py_commands=["bdist_wheel", "sdist"],
+    wheel=True,
+    sdist=True,
     provides=setup_py(
-        name='helloworld.util',
-        version='0.0.1',
-        description='Greeting library utilities.',
+        name="helloworld.translator",
+        version="0.0.1",
+        description="A language translator.",
     ),
 )
