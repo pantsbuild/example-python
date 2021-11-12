@@ -24,13 +24,3 @@ pex_binary(
     name="pex_binary",
     entry_point="main.py",
 )
-
-# This target allows us to create an AWS Lambda binary via `./pants package`.
-#  See https://www.pantsbuild.org/docs/awslambda-python.
-#
-# Note: This has sdist dependencies, so it must be built on Linux.
-python_awslambda(
-    name="awslambda",
-    handler="awslambda.py:handler",
-    runtime="python3.7",
-)

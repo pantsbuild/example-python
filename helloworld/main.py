@@ -3,15 +3,13 @@
 
 from colors import green
 
-from helloworld.config import load_config
 from helloworld.greet.greeting import Greeter
+from helloworld.util.config import Config
 
 
 def say_hello() -> None:
-    config = load_config()
-    greeter = Greeter(
-        languages=list(config.languages), greetings=list(config.greetings)
-    )
+    config = Config.load_from_json_resource(__name__, "config.json")
+    greeter = Greeter(languages=config.languages, greetings=config.greetings)
     sentence = greeter.greet("world")
     print(green(sentence))
 
