@@ -3,8 +3,9 @@
 
 # This target sets the metadata for all the Python non-test files in this directory.
 #
-# * Pants cannot infer dependencies on `resources` targets, so we explicitly add the dep.
-python_library(
+# * Pants cannot infer dependencies on `resource` / `resources` targets, so we explicitly add the
+#   dep.
+python_sources(
     name="lib",
     dependencies=[":translations"],
 )
@@ -15,7 +16,7 @@ python_tests(
 )
 
 # This target teaches Pants about our JSON file, which allows other targets to depend on it.
-resources(
+resource(
     name="translations",
-    sources=["translations.json"],
+    source="translations.json",
 )

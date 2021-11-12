@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 # This target sets the metadata for all the Python non-test files in this directory.
-python_library(
+python_sources(
     name="lib",
 )
 
