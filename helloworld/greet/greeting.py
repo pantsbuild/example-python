@@ -1,21 +1,30 @@
 # Copyright 2020 Pants project contributors.
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
-import random
-from typing import List
+from __future__ import annotations
 
-from helloworld.util.lang import LanguageTranslator
+import json
+import random
+
+import pkg_resources
+
+from helloworld.translator.translator import LanguageTranslator
 
 
 class Greeter:
-    def __init__(self, greetings: List[str], languages: List[str]) -> None:
-        self._greetings = greetings
-        self._language_translator = LanguageTranslator(languages=languages)
-
-    def translated_greeting(self) -> str:
-        random_greeting = random.choice(self._greetings)
-        return self._language_translator.translate_to_random_language(random_greeting)
+    def __init__(
+        self, *, translations: dict[str, dict[str, str]] | None = None
+    ) -> None:
+        self._translations = (
+            translations
+            if translations is not None
+            else json.loads(
+                pkg_resources.resource_string(__name__, "translations.json")
+            )
+        )
+        self._translator = LanguageTranslator(self._translations)
 
     def greet(self, name: str) -> str:
-        greeting = self.translated_greeting()
+        random_greeting = random.choice(list(self._translations.keys()))
+        greeting = self._translator.translate_to_random_language(random_greeting)
         return f"{greeting}, {name}!".capitalize()
