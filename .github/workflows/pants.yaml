@@ -47,7 +47,7 @@ jobs:
         ./pants --version
     - name: Check BUILD files
       run: ./pants tailor --check update-build-files --check
-    - name: Lint and typechck
+    - name: Lint and typecheck
       run: | 
         ./pants lint typecheck ::
     - name: Test
