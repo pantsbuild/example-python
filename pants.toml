@@ -27,10 +27,10 @@ root_patterns = ["/"]
 interpreter_constraints = [">=3.7"]
 # Use a constraints file. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
 requirement_constraints = "constraints.txt"
+
+[python-bootstrap]
 # We search for interpreters on both on the $PATH and in the `$(pyenv root)/versions` folder.
 #  If you're using macOS, you may want to leave off the <PATH> entry to avoid using the
 #  problematic system Pythons. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility#changing-the-interpreter-search-path.
-
-[python-bootstrap]
 search_path = ["<PATH>", "<PYENV>"]
