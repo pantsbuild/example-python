@@ -16,29 +16,7 @@ PANTS_SOURCE="${PANTS_SOURCE:-../pants}"
 # you won't want pantsd running.  You can override this by setting ENABLE_PANTSD=true.
 ENABLE_PANTSD="${ENABLE_PANTSD:-false}"
 
-backend_packages=(
-)
-
-pythonpath=(
-)
-
-plugins=(
-)
-
-function string_list() {
-  eval local -r list_variable="\${$1[@]}"
-
-  echo -n "["
-  for item in ${list_variable}; do
-    echo -n "\"${item}\","
-  done
-  echo -n "]"
-}
-
 export PANTS_VERSION="$(cat "${PANTS_SOURCE}/src/python/pants/VERSION")"
-export PANTS_PLUGINS="$(string_list plugins)"
-export PANTS_PYTHONPATH="+$(string_list pythonpath)"
-export PANTS_BACKEND_PACKAGES="+$(string_list backend_packages)"
 export PANTS_PANTSD="${ENABLE_PANTSD}"
 export no_proxy="*"
 
