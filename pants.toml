@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.9.0"
+pants_version = "2.10.0rc0"
 backend_packages.add = [
   "pants.backend.python",
   "pants.backend.python.lint.docformatter",
@@ -11,6 +11,11 @@ backend_packages.add = [
   "pants.backend.python.lint.isort",
   "pants.backend.python.typecheck.mypy",
 ]
+
+# This will become the default in 2.11, and is only explicitly set to not break
+# backwards-compatibility for existing users. If you are setting up Pants for
+# the first time, set this to false.
+use_deprecated_python_macros = false
 
 [anonymous-telemetry]
 enabled = true
@@ -24,9 +29,14 @@ root_patterns = ["/"]
 # The default interpreter compatibility for code in this repo. Individual targets can override
 #  this with the `interpreter_constraints` field. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
+#
+# If you use Apple Silicon, set to a value like `>=3.9`.
 interpreter_constraints = [">=3.7"]
-# Use a constraints file. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
-requirement_constraints = "constraints.txt"
+
+# Enable the "resolves" mechanism, which allows you to have multiple lockfiles and for Pants to
+# generate the lockfiles for you. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
+enable_resolves = true
+resolves = { python-default = "lockfile.txt"}
 
 [python-bootstrap]
 # We search for interpreters on both on the $PATH and in the `$(pyenv root)/versions` folder.
