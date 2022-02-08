@@ -29,7 +29,9 @@ root_patterns = ["/"]
 # The default interpreter compatibility for code in this repo. Individual targets can override
 #  this with the `interpreter_constraints` field. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
-interpreter_constraints = [">=3.9"]
+#
+# If you use Apple Silicon, set to a value like `>=3.9`.
+interpreter_constraints = [">=3.7"]
 
 # Enable the "resolves" mechanism, which allows you to have multiple lockfiles and for Pants to
 # generate the lockfiles for you. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
