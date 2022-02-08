@@ -26,7 +26,7 @@ Pants commands are called _goals_. You can get a list of goals with
 # Targets
 
 Targets are a way of setting metadata for some part of your code, such as timeouts for tests and 
-entry points for binaries. Targets have types like `python_binary`, `resources`, and 
+entry points for binaries. Targets have types like `python_source`, `resources`, and 
 `pex_binary`. They are defined in `BUILD` files.
 
 Pants goals can be invoked on targets or directly on source files (which is often more intuitive and convenient).
@@ -78,12 +78,6 @@ Targets are referenced on the command line using their address, of the form `pat
 ./pants lint helloworld/util:util
 ```
 
-You can omit the target name if it is the same as the immediately enclosing directory name, e.g.,
-
-```
-./pants lint helloworld/util
-```
-
 You can glob over all targets in a directory with a single trailing `:`, or over all targets in a directory
 and all its subdirectories with a double trailing `::`, e.g.,
 
@@ -103,11 +97,6 @@ those, rather than error. So you can safely do things like
 
 To run all tests.
 
-In some cases trying to run a goal on multiple files or targets will fail due to conflicts. For example, you cannot
-`./pants repl helloworld::` because that globs over both Python 2 and Python 3 code, so there is
-no way to select an interpreter compatible with both both to run the REPL on.
-
-
 # Example Goals
 
 Try these out in this repo!
@@ -123,13 +112,13 @@ Try these out in this repo!
 
 ```
 ./pants lint ::
-./pants fmt 'helloworld/**/*.py'
+./pants fmt helloworld/greet::
 ```
 
 ## Run MyPy
 
 ```
-./pants typecheck ::
+./pants check ::
 ```
 
 ## Run tests
@@ -157,7 +146,7 @@ Try these out in this repo!
 
 ```
 ./pants repl helloworld/greet  # The REPL will have all relevant code and dependencies on its sys.path.
-./pants repl --shell=ipython helloworld/greet
+./pants repl --shell=ipython helloworld/greet --no-pantsd  # To use IPython, you must disable Pantsd for now.
 ```
 
 ## Build a wheel / generate `setup.py`
@@ -168,11 +157,13 @@ This will build both a `.whl` bdist and a `.tar.gz` sdist.
 ./pants package helloworld/util:dist
 ```
 
-We can also remove the `setup_py_commands` field from `helloworld/util/BUILD` to have Pants instead generate a 
-`setup.py` file, with all the relevant code in a chroot.
-
 ## Count lines of code
 
 ```
 ./pants count-loc '**/*'
+```
+## Create virtualenv for IDE integration
+
+```
+./pants export ::
 ```
