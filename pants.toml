@@ -36,7 +36,7 @@ root_patterns = ["/"]
 # If you use Apple Silicon, set to a value like `>=3.9`.
 interpreter_constraints = [">=3.7"]
 
-# Enable the "resolves" mechanism, which allows you to have multiple lockfiles. See
+# Enable the "resolves" mechanism, which turns on lockfiles for user code. See
 # https://www.pantsbuild.org/docs/python-third-party-dependencies. This also adds the
 # `generate-lockfiles` goal for Pants to generate the lockfile for you, although in some
 # situations you may need to manually generate it, as explained in the docs.
