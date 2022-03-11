@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.10.0rc0"
+pants_version = "2.10.0rc3"
 backend_packages.add = [
   "pants.backend.python",
   "pants.backend.python.lint.docformatter",
@@ -33,13 +33,15 @@ root_patterns = ["/"]
 # If you use Apple Silicon, set to a value like `>=3.9`.
 interpreter_constraints = [">=3.7"]
 
-# Enable the "resolves" mechanism, which allows you to have multiple lockfiles and for Pants to
-# generate the lockfiles for you. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
+# Enable the "resolves" mechanism, which allows you to have multiple lockfiles. See
+# https://www.pantsbuild.org/docs/python-third-party-dependencies. This also adds the
+# `generate-lockfiles` goal for Pants to generate the lockfile for you, although in some
+# situations you may need to manually generate it, as explained in the docs.
 enable_resolves = true
 resolves = { python-default = "lockfile.txt"}
 
 [python-bootstrap]
-# We search for interpreters on both on the $PATH and in the `$(pyenv root)/versions` folder.
+# We search for interpreters both on the $PATH and in the `$(pyenv root)/versions` folder.
 #  If you're using macOS, you may want to leave off the <PATH> entry to avoid using the
 #  problematic system Pythons. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility#changing-the-interpreter-search-path.
