@@ -26,18 +26,17 @@ repo_id = "3B1D361B-E9F1-49A8-B761-03DCC41FD58E"
 root_patterns = ["/"]
 
 [python]
-# The default interpreter constraints for code in this repo. Individual targets can override
+# The default interpreter compatibility for code in this repo. Individual targets can override
 #  this with the `interpreter_constraints` field. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
-#
-# It's usually a good idea to pin this to a particular version, e.g. `==3.9.*`. We only use a range
-# so that this example works on many different machines.
 #
 # If you use Apple Silicon, set to a value like `>=3.9`.
 interpreter_constraints = [">=3.7"]
 
-# Use a constraints file. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
-requirement_constraints = "constraints.txt"
+# Enable the "resolves" mechanism, which allows you to have multiple lockfiles and for Pants to
+# generate the lockfiles for you. See https://www.pantsbuild.org/docs/python-third-party-dependencies.
+enable_resolves = true
+resolves = { python-default = "lockfile.txt"}
 
 [python-bootstrap]
 # We search for interpreters on both on the $PATH and in the `$(pyenv root)/versions` folder.
