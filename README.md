@@ -37,25 +37,25 @@ In the latter case, Pants locates target metadata for the source files as needed
 Invoking goals on files is straightforward, e.g.,
 
 ```
-./pants test helloworld/util/lang_test.py
+./pants test helloworld/greet/greeting_test.py
 ```
 
 You can use globs:
 
 ```
-./pants lint helloworld/util/*.py
+./pants lint helloworld/greet/*.py
 ```
 
 But note that these will be expanded by your shell, so this is equivalent to having used
 
 ```
-./pants lint helloworld/util/lang.py helloworld/util/lang_test.py helloworld/util/resources.py helloworld/util/resources_test.py
+./pants lint helloworld/greet/__init__.py helloworld/greet/greeting.py helloworld/greet/greeting_test.py
 ```
 
 If you want Pants itself to expand the globs (which is sometimes necessary), you must quote them in the shell:
 
 ```
-./pants lint 'helloworld/util/*.py'
+./pants lint 'helloworld/greet/*.py'
 ```
 
 You can run on all changed files:
@@ -75,7 +75,7 @@ You can run on all changed files, and any of their "dependees":
 Targets are referenced on the command line using their address, of the form `path/to/dir:name`, e.g.,
 
 ```
-./pants lint helloworld/util:util
+./pants lint helloworld/greet:lib
 ```
 
 You can glob over all targets in a directory with a single trailing `:`, or over all targets in a directory
@@ -125,9 +125,10 @@ Try these out in this repo!
 
 ```
 ./pants test ::  # Run all tests in the repo.
-./pants test helloworld/util:test  # Run all the tests in this target.
-./pants test helloworld/util/lang_test.py  # Run just the tests in this file.
-./pants test helloworld/util/lang_test.py -- -k test_language_translator  # Run just this one test.
+./pants test --output=all ::  # Run all tests in the repo and view pytest output even for tests that passed (you can set this permanently in pants.toml).
+./pants test helloworld/translator:tests  # Run all the tests in this target.
+./pants test helloworld/translator/translator_test.py  # Run just the tests in this file.
+./pants test helloworld/translator/translator_test.py -- -k test_unknown_phrase  # Run just this one test by passing through pytest args.
 ```
 
 ## Create a PEX binary
@@ -136,7 +137,7 @@ Try these out in this repo!
 ./pants package helloworld/main.py
 ```
 
-## Run a binary
+## Run a binary directly
 
 ```
 ./pants run helloworld/main.py
@@ -145,8 +146,8 @@ Try these out in this repo!
 ## Open a REPL
 
 ```
-./pants repl helloworld/greet  # The REPL will have all relevant code and dependencies on its sys.path.
-./pants repl --shell=ipython helloworld/greet --no-pantsd  # To use IPython, you must disable Pantsd for now.
+./pants repl helloworld/greet:lib  # The REPL will have all relevant code and dependencies on its sys.path.
+./pants repl --shell=ipython helloworld/greet:lib --no-pantsd  # To use IPython, you must disable Pantsd for now.
 ```
 
 ## Build a wheel / generate `setup.py`
@@ -154,7 +155,7 @@ Try these out in this repo!
 This will build both a `.whl` bdist and a `.tar.gz` sdist.
 
 ```
-./pants package helloworld/util:dist
+./pants package helloworld/translator:dist
 ```
 
 ## Count lines of code
