@@ -12,6 +12,10 @@ example layouts.
 You run Pants goals using the `./pants` wrapper script, which will bootstrap the
 configured version of Pants if necessary.
 
+> :question: Running with Apple Silicon and/or MacOS? You will want to make changes to the `search_path` and
+`interpreter_constraints` values in `pants.toml` before running `./pants` - there is guidance in `pants.toml`
+for those settings.
+
 Use `./pants --version` to see the version of Pants configured for the repo (which you can also find
 in `pants.toml`).
 
