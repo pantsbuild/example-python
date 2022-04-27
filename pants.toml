@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.10.0"
+pants_version = "2.11.0rc5"
 backend_packages.add = [
   "pants.backend.python",
   "pants.backend.python.lint.docformatter",
@@ -11,11 +11,6 @@ backend_packages.add = [
   "pants.backend.python.lint.isort",
   "pants.backend.python.typecheck.mypy",
 ]
-
-# This will become the default in 2.11, and is only explicitly set to not break
-# backwards-compatibility for existing users. If you are setting up Pants for
-# the first time, set this to false.
-use_deprecated_python_macros = false
 
 [anonymous-telemetry]
 enabled = true
@@ -42,6 +37,10 @@ interpreter_constraints = [">=3.7"]
 # situations you may need to manually generate it, as explained in the docs.
 enable_resolves = true
 resolves = { python-default = "lockfile.txt"}
+
+# Enable using the PEX lockfile format, which provides support for custom indexes, and
+# improves performance for large repositories.
+lockfile_generator = "pex"
 
 [python-bootstrap]
 # We search for interpreters both on the $PATH and in the `$(pyenv root)/versions` folder.
