@@ -38,6 +38,10 @@ interpreter_constraints = [">=3.7"]
 enable_resolves = true
 resolves = { python-default = "lockfile.txt"}
 
+# Enable using the PEX lockfile format, which provides improved performance for large
+# monorepos, and better support for alternative repositories.
+lockfile_generator = "pex"
+
 [python-bootstrap]
 # We search for interpreters both on the $PATH and in the `$(pyenv root)/versions` folder.
 #  If you're using macOS, you may want to leave off the <PATH> entry to avoid using the
