@@ -1,3 +1,5 @@
+I AM A DUCK
+
 # example-python
 An example repository to demonstrate Python support in Pants.
 
