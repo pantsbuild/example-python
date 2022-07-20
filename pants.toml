@@ -12,6 +12,21 @@ backend_packages.add = [
   "pants.backend.python.typecheck.mypy",
 ]
 
+# Pants' sponsor, Toolchain, offers remote caching, which can improve your CI performance
+# with minimal configuration. For more details, visit https://toolchain.com
+
+plugins.add = [
+  "toolchain.pants.plugin==0.20.0",
+]
+
+remote_cache_read = false
+remote_cache_write = false
+remote_store_address = "grpcs://cache.toolchain.com:443"
+remote_auth_plugin = "toolchain.pants.auth.plugin:toolchain_auth_plugin"
+
+# End Toolchain-specific configuration
+
+
 [anonymous-telemetry]
 enabled = true
 repo_id = "3B1D361B-E9F1-49A8-B761-03DCC41FD58E"
@@ -48,3 +63,14 @@ lockfile_generator = "pex"
 #  problematic system Pythons. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility#changing-the-interpreter-search-path.
 search_path = ["<PATH>", "<PYENV>"]
+
+
+# Configuration for Toolchain instrumentation and remote caching
+# Visit https://toolchain.com to enable and try it on your repository
+
+[toolchain-setup]
+repo = "pants"
+org = "example-python"
+
+[buildsense]
+enable = false
