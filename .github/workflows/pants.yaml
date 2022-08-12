@@ -30,10 +30,24 @@ jobs:
       id: cache
       with:
         path: |
-          ~/.cache/pants/setup
-          ~/.cache/pants/lmdb_store
-          ~/.cache/pants/named_caches
-        key: ${{ runner.os }}-
+          ~/.cache/pants/setup # The initial bootstrapping of Pants
+          ~/.cache/pants/named_caches  # Caches used by underlying tools like Pip and PEX.
+          # If you're not using a fine-grained remote caching service, such as the one provided by
+          # Toolchain(https://toolchain.com/), the lead sponsor of Pants, then you may also want to
+          # preserve the local Pants cache:
+          # ~/.cache/pants/lmdb_store
+        # Note that this is a very non-specific key, so the cache will include the
+        # setup for every prior version of Pants you've used, and a lot of old state of
+        # underlying tools, and will need to be pruned from time to time.
+        # See https://www.pantsbuild.org/docs/using-pants-in-ci for examples of how to do so.
+        #
+        # Alternatively, you could use a key like `pants-setup-${{ runner.os }}-${{ hashFiles('pants.toml') }}
+        # which will invalidate when the pants version changes, but will also invalidate on any other
+        # config change, which may be too aggressive.
+        #
+        # If you cache the lmdb_store directory, that will grow quickly and also need to be pruned.
+        # A Pants-aware, fine-grained remote cache service avoids these problems.
+        key: pants-setup-${{ runner.os }}
     - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
