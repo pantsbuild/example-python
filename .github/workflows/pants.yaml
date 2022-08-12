@@ -27,27 +27,37 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
-      id: cache
+      id: cache_pants_setup
       with:
         path: |
-          ~/.cache/pants/setup # The initial bootstrapping of Pants
-          ~/.cache/pants/named_caches  # Caches used by underlying tools like Pip and PEX.
-          # If you're not using a fine-grained remote caching service (see
-          # https://www.pantsbuild.org/docs/remote-caching), then you may also want to preserve
-          # the local Pants cache:
-          # ~/.cache/pants/lmdb_store
-        # Note that this is a very non-specific key, so the cache will include the
-        # setup for every prior version of Pants you've used, and a lot of old state of
-        # underlying tools, and will need to be pruned from time to time.
-        # See https://www.pantsbuild.org/docs/using-pants-in-ci for examples of how to do so.
-        #
-        # Alternatively, you could use a key like `pants-setup-${{ runner.os }}-${{ hashFiles('pants.toml') }}
-        # which will invalidate when the pants version changes, but will also invalidate on any other
-        # config change, which may be too aggressive.
-        #
-        # If you cache the lmdb_store directory, that will grow quickly and also need to be pruned.
-        # A Pants-aware, fine-grained remote cache service avoids these problems.
-        key: pants-setup-${{ runner.os }}
+          ~/.cache/pants/setup
+        key: pants-setup-${{ runner.os }}-${{ hashFiles('pants.toml') }}
+        restore-keys: |
+          pants-setup-${{ runner.os }}-${{ hashFiles('pants.toml') }}
+          pants-setup-${{ runner.os }}-
+    - uses: actions/cache@v2
+      id: cached_named_caches
+      with:
+        path: |
+          ~/.cache/pants/named_caches
+        # The Python backend uses named_caches for Pip/PEX state,
+        # so it is appropriate to invalidate on requirements.txt changes.
+        key: named-caches-${{ runner.os }}-${{ hashFiles('pants.toml') }}-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          pants-setup-${{ runner.os }}-${{ hashFiles('pants.toml') }}-${{ hashFiles('requirements.txt') }}
+          pants-setup-${{ runner.os }}-${{ hashFiles('pants.toml') }}-
+          pants-setup-${{ runner.os }}-
+    # If you're not using a fine-grained remote caching service (see https://www.pantsbuild.org/docs/remote-caching),
+    # then you may also want to preserve the local Pants cache (lmdb_store). However this must invalidate for
+    # changes to any file that can affect the build, so may not be practical in larger repos.
+    # A remote cache service integrates with Pants's fine-grained invalidation and avoids these problems.
+    - uses: actions/cache@v2
+      id: cache_lmdb_store
+      with:
+        path: |
+          ~/.cache/pants/lmdb_store
+        key: pants-setup-${{ runner.os }}-${{ hashFiles('**/*') }}
+        restore-keys: pants-setup-${{ runner.os }}-
     - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
