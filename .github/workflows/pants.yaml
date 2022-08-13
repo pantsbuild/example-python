@@ -46,12 +46,12 @@ jobs:
         # The Python backend uses named_caches for Pip/PEX state,
         # so it is appropriate to invalidate on requirements.txt changes.
         key: named-caches-${{ runner.os }}-${{ hashFiles('pants.toml') }}-${{ hashFiles('requirements.txt') }}
+        # Note that falling back to a restore key may give a useful partial result that will save time
+        # over completely clean state, but will cause the cache entry to grow without bound over time.
+        # See https://pants.readme.io/docs/using-pants-in-ci for tips on how to periodically clean it up.
+        # Alternatively you may want to avoid using restore keys.
         restore-keys: |
           pants-setup-${{ runner.os }}-${{ hashFiles('pants.toml') }}-${{ hashFiles('requirements.txt') }}
-          # Note that falling back to a restore key may give a useful partial result that will save time
-          # over completely clean state, but will cause the cache entry to grow without bound over time.
-          # See https://pants.readme.io/docs/using-pants-in-ci for tips on how to periodically clean it up.
-          # Alternatively you may want to avoid using restore keys.
           pants-setup-${{ runner.os }}-${{ hashFiles('pants.toml') }}-
           pants-setup-${{ runner.os }}-
     # If you're not using a fine-grained remote caching service (see https://www.pantsbuild.org/docs/remote-caching),
