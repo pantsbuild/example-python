@@ -26,14 +26,46 @@ jobs:
         python-version: [3.7]
     steps:
     - uses: actions/checkout@v2
+    - name: Get Pants version
+      id: pants_version
+      run: |
+        # Capture the "pants_version = " line from config.
+        PANTS_VERSION=$(grep -E '^pants_version\s*=' pants.toml)
+        echo "::set-output name=pants_version::$PANTS_VERSION"
     - uses: actions/cache@v2
-      id: cache
+      id: cache_pants_setup
       with:
         path: |
           ~/.cache/pants/setup
-          ~/.cache/pants/lmdb_store
+        key: pants-setup-${{ steps.pants_version.outputs.pants_version }}
+    - uses: actions/cache@v2
+      id: cached_named_caches
+      with:
+        path: |
           ~/.cache/pants/named_caches
-        key: ${{ runner.os }}-
+        # The Python backend uses named_caches for Pip/PEX state,
+        # so it is appropriate to invalidate on requirements.txt changes.
+        key: named-caches-${{ runner.os }}-${{ hashFiles('pants.toml') }}-${{ hashFiles('requirements.txt') }}
+        # Note that falling back to a restore key may give a useful partial result that will save time
+        # over completely clean state, but will cause the cache entry to grow without bound over time.
+        # See https://pants.readme.io/docs/using-pants-in-ci for tips on how to periodically clean it up.
+        # Alternatively you may want to avoid using restore keys.
+        restore-keys: |
+          pants-setup-${{ runner.os }}-${{ hashFiles('pants.toml') }}-${{ hashFiles('requirements.txt') }}
+          pants-setup-${{ runner.os }}-${{ hashFiles('pants.toml') }}-
+          pants-setup-${{ runner.os }}-
+    # If you're not using a fine-grained remote caching service (see https://www.pantsbuild.org/docs/remote-caching),
+    # then you may also want to preserve the local Pants cache (lmdb_store). However this must invalidate for
+    # changes to any file that can affect the build, so may not be practical in larger repos.
+    # A remote cache service integrates with Pants's fine-grained invalidation and avoids these problems.
+    - uses: actions/cache@v2
+      id: cache_lmdb_store
+      with:
+        path: |
+          ~/.cache/pants/lmdb_store
+        key: pants-setup-${{ runner.os }}-${{ hashFiles('**/*') }}
+        # Same caveat as above regarding the issues with restore keys.
+        restore-keys: pants-setup-${{ runner.os }}-
     - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
