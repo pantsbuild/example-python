@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.12.0"
+pants_version = "2.13.0"
 backend_packages.add = [
   "pants.backend.python",
   "pants.backend.python.lint.docformatter",
@@ -16,7 +16,7 @@ backend_packages.add = [
 # with minimal configuration. For more details, visit https://toolchain.com
 
 plugins.add = [
-  "toolchain.pants.plugin==0.20.0",
+  "toolchain.pants.plugin==0.22.0",
 ]
 
 remote_cache_read = false
@@ -24,8 +24,17 @@ remote_cache_write = false
 remote_store_address = "grpcs://cache.toolchain.com:443"
 remote_auth_plugin = "toolchain.pants.auth.plugin:toolchain_auth_plugin"
 
-# End Toolchain-specific configuration
+# Configuration for Toolchain instrumentation and remote caching
+# Visit https://toolchain.com and https://docs.toolchain.com/docs/getting-started-with-toolchain to enable and try it on your repository
 
+[toolchain-setup]
+repo = "pants"
+org = "example-python"
+
+[buildsense]
+enable = false
+
+# End Toolchain-specific configuration
 
 [anonymous-telemetry]
 enabled = true
@@ -51,7 +60,7 @@ interpreter_constraints = [">=3.7"]
 # `generate-lockfiles` goal for Pants to generate the lockfile for you, although in some
 # situations you may need to manually generate it, as explained in the docs.
 enable_resolves = true
-resolves = { python-default = "lockfile.txt"}
+resolves = { python-default = "lockfile.lock"}
 
 # Enable using the PEX lockfile format, which provides support for custom indexes, and
 # improves performance for large repositories.
@@ -63,14 +72,3 @@ lockfile_generator = "pex"
 #  problematic system Pythons. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility#changing-the-interpreter-search-path.
 search_path = ["<PATH>", "<PYENV>"]
-
-
-# Configuration for Toolchain instrumentation and remote caching
-# Visit https://toolchain.com to enable and try it on your repository
-
-[toolchain-setup]
-repo = "pants"
-org = "example-python"
-
-[buildsense]
-enable = false
