@@ -10,7 +10,7 @@ on: [push, pull_request]
 jobs:
   org-check:
     name: Check GitHub Organization
-    if: ${{ github.repository_owner == 'pantsbuild' }}
+    #if: ${{ github.repository_owner == 'pantsbuild' }}
     runs-on: ubuntu-20.04
     steps:
       - name: Noop
