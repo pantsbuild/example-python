@@ -29,7 +29,7 @@ jobs:
         # cache0 makes it easy to bust the cache if needed
         # just increase the integer to start with a fresh cache
         gha-cache-key: cache0-py${{ matrix.python-version }}
-        named-caches-hash: ${{ filesHash('lockfile.txt') }}
+        named-caches-hash: ${{ hashFiles('lockfile.txt') }}
 
     - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
