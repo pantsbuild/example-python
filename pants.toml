@@ -12,7 +12,7 @@ backend_packages.add = [
   "pants.backend.python.typecheck.mypy",
 ]
 
-use_deprecated_directory_cli_args_semantics = true
+use_deprecated_directory_cli_args_semantics = false
 
 # Pants' sponsor, Toolchain, offers remote caching, which can improve your CI performance
 # with minimal configuration. For more details, visit https://toolchain.com
