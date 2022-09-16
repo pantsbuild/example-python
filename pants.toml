@@ -30,12 +30,11 @@ remote_auth_plugin = "toolchain.pants.auth.plugin:toolchain_auth_plugin"
 # Visit https://toolchain.com and https://docs.toolchain.com/docs/getting-started-with-toolchain to enable and try it on your repository
 
 [toolchain-setup]
-repo = "pants"
-org = "example-python"
+org = "pantsbuild"
+repo = "example-python"
 
 [buildsense]
 enable = false
-
 # End Toolchain-specific configuration
 
 [anonymous-telemetry]
