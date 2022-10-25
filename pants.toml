@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.12.0"
+pants_version = "2.13.0"
 backend_packages.add = [
   "pants.backend.python",
   "pants.backend.python.lint.docformatter",
@@ -33,7 +33,7 @@ repo_id = "3B1D361B-E9F1-49A8-B761-03DCC41FD58E"
 
 [source]
 # The Python source root is the repo root. See https://www.pantsbuild.org/docs/source-roots.
-root_patterns = ["/"]
+root_patterns = ["/helloworld"]
 
 [python]
 # The default interpreter constraints for code in this repo. Individual targets can override

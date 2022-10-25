@@ -17,14 +17,14 @@ python_tests(
 # Because this target has no source code, Pants cannot infer dependencies. We depend on `:lib`,
 #  which means we'll include all the non-test Python files in this directory, and any of
 #  their dependencies.
-python_distribution(
-    name="dist",
-    dependencies=[":lib"],
-    wheel=True,
-    sdist=True,
-    provides=setup_py(
-        name="helloworld.translator",
-        version="0.0.1",
-        description="A language translator.",
-    ),
-)
+#python_distribution(
+#    name="dist",
+#    dependencies=[":lib"],
+#    wheel=True,
+#    sdist=True,
+#    provides=setup_py(
+#        name="helloworld.translator",
+#        version="0.0.1",
+#        description="A language translator.",
+#    ),
+#)
