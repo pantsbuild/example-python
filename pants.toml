@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.12.0"
+pants_version = "2.14.0"
 backend_packages.add = [
   "pants.backend.python",
   "pants.backend.python.lint.docformatter",
@@ -39,23 +39,18 @@ root_patterns = ["/"]
 # The default interpreter constraints for code in this repo. Individual targets can override
 #  this with the `interpreter_constraints` field. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
-#
-# It's usually a good idea to pin this to a particular version, e.g. `==3.9.*`. We only use a range
-# so that this example works on many different machines.
-#
-# If you use Apple Silicon, set to a value like `>=3.9`.
-interpreter_constraints = [">=3.7"]
+
+# Modify this if you don't have Python 3.9 on your machine.
+# This can be a range, such as [">=3.8,<3.11"], but it's usually recommended to restrict
+# to a single minor version.
+interpreter_constraints = ["==3.9.*"]
 
 # Enable the "resolves" mechanism, which turns on lockfiles for user code. See
 # https://www.pantsbuild.org/docs/python-third-party-dependencies. This also adds the
-# `generate-lockfiles` goal for Pants to generate the lockfile for you, although in some
-# situations you may need to manually generate it, as explained in the docs.
+# `generate-lockfiles` goal for Pants to generate the lockfile for you.
 enable_resolves = true
-resolves = { python-default = "lockfile.txt"}
 
-# Enable using the PEX lockfile format, which provides support for custom indexes, and
-# improves performance for large repositories.
-lockfile_generator = "pex"
+resolves = { python-default = "python-default.lock"}
 
 [python-bootstrap]
 # We search for interpreters both on the $PATH and in the `$(pyenv root)/versions` folder.
