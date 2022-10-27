@@ -21,10 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7]
+        python-version: [3.9]
     steps:
-    - uses: actions/checkout@v2
-    - uses: pantsbuild/actions/init-pants@c0ce05ee4ba288bb2a729a2b77294e9cb6ab66f7
+    - uses: actions/checkout@v3
+    - uses: pantsbuild/actions/init-pants@v1
       # This action bootstraps pants and manages 2-3 GHA caches.
       # See: github.com/pantsbuild/actions/tree/init-pants/
       # We use an action SHA because there are no tags yet.
@@ -34,7 +34,7 @@ jobs:
         gha-cache-key: cache0-py${{ matrix.python-version }}
         # The Python backend uses named_caches for Pip/PEX state,
         # so it is appropriate to invalidate on lockfile changes.
-        named-caches-hash: ${{ hashFiles('lockfile.txt') }}
+        named-caches-hash: ${{ hashFiles('python-default.lock') }}
         # If you're not using a fine-grained remote caching service (see https://www.pantsbuild.org/docs/remote-caching),
         # then you may also want to preserve the local Pants cache (lmdb_store). However this must invalidate for
         # changes to any file that can affect the build, so may not be practical in larger repos.
@@ -47,7 +47,7 @@ jobs:
         # Alternatively you change gha-cache-key to ignore old caches.
 
     - name: Setup Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     - name: Check BUILD files
@@ -64,7 +64,7 @@ jobs:
         ./pants package ::
         ./pants run helloworld/main.py
     - name: Upload pants log
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: pants-log
         path: .pants.d/pants.log
