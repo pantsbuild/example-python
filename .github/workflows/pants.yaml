@@ -29,6 +29,7 @@ jobs:
       # See: github.com/pantsbuild/actions/tree/init-pants/
       # We use an action SHA because there are no tags yet.
       with:
+        pants-python-version: ${{ matrix.python-version }}
         # cache0 makes it easy to bust the cache if needed
         # just increase the integer to start with a fresh cache
         gha-cache-key: cache0-py${{ matrix.python-version }}
