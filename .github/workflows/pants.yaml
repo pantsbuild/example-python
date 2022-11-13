@@ -25,9 +25,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: pantsbuild/actions/init-pants@v1
-      # This action bootstraps pants and manages 2-3 GHA caches.
-      # See: github.com/pantsbuild/actions/tree/init-pants/
-      # We use an action SHA because there are no tags yet.
       with:
         # cache0 makes it easy to bust the cache if needed
         # just increase the integer to start with a fresh cache
