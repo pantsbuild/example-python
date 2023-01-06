@@ -30,7 +30,6 @@ org = "pantsbuild"
 enable = false
 # End Toolchain-specific configuration
 
-
 [anonymous-telemetry]
 enabled = true
 repo_id = "3B1D361B-E9F1-49A8-B761-03DCC41FD58E"
