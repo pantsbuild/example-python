@@ -23,8 +23,8 @@ remote_cache_read = false
 remote_cache_write = false
 
 [toolchain-setup]
-repo = "pants"
-org = "example-python"
+repo = "example-python"
+org = "pantsbuild"
 
 [buildsense]
 enable = false
