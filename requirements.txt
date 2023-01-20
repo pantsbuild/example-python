@@ -4,4 +4,4 @@
 ansicolors==1.1.8
 setuptools>=56.2.0,<57
 types-setuptools>=56.2.0,<58
-pytest==7.0.1
+pytest==7.1.3
