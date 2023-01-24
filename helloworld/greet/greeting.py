@@ -10,6 +10,8 @@ import pkg_resources
 
 from helloworld.translator.translator import LanguageTranslator
 
+from helloworld.translator.foobar import baz
+
 
 class Greeter:
     def __init__(
