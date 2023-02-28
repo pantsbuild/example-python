@@ -24,14 +24,13 @@ jobs:
         python-version: [3.9]
     steps:
     - uses: actions/checkout@v3
-    - uses: pantsbuild/actions/init-pants@v2
+    - uses: pantsbuild/actions/init-pants@v4-scie-pants
       # This action bootstraps pants and manages 2-3 GHA caches.
       # See: github.com/pantsbuild/actions/tree/main/init-pants/
       with:
-        pants-python-version: ${{ matrix.python-version }}
-        # cache0 makes it easy to bust the cache if needed
+        # v0 makes it easy to bust the cache if needed
         # just increase the integer to start with a fresh cache
-        gha-cache-key: cache0-py${{ matrix.python-version }}
+        gha-cache-key: v0
         # The Python backend uses named_caches for Pip/PEX state,
         # so it is appropriate to invalidate on lockfile changes.
         named-caches-hash: ${{ hashFiles('python-default.lock') }}
@@ -47,18 +46,18 @@ jobs:
         # Alternatively you change gha-cache-key to ignore old caches.
     - name: Check BUILD files
       run:  |
-        ./pants tailor --check update-build-files --check ::
+        pants tailor --check update-build-files --check ::
     - name: Lint and typecheck
       run: | 
-        ./pants lint check ::
+        pants lint check ::
     - name: Test
       run: |
-        ./pants test ::
+        pants test ::
     - name: Package / Run
       run: |
         # We also smoke test that our release process will work by running `package`.
-        ./pants package ::
-        ./pants run helloworld/main.py
+        pants package ::
+        pants run helloworld/main.py
     - name: Upload pants log
       uses: actions/upload-artifact@v3
       with:
