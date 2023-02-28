@@ -24,6 +24,9 @@ jobs:
         python-version: [3.9]
     steps:
     - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
     - uses: pantsbuild/actions/init-pants@v4-scie-pants
       # This action bootstraps pants and manages 2-3 GHA caches.
       # See: github.com/pantsbuild/actions/tree/main/init-pants/
