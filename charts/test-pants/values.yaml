@@ -1,0 +1,135 @@
+# Default values for your projects.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+# Add annotations to the pods
+podAnnotations: {}
+# Add labels to the pods
+podsLabels: {}
+# Add labels to the deployment
+deploymentLabels: {}
+
+image:
+  repository: draft
+  tag: dev
+  pullPolicy: IfNotPresent
+
+# optional list of image pull secrets to use to pull images
+jx:
+  # optional image pull secrets
+  imagePullSecrets: []
+
+  # whether to create a Release CRD when installing charts with Release CRDs included
+  releaseCRD: true
+
+# define environment variables here as a map of key: value
+env:
+
+# enable this flag to use knative serve to deploy the app
+knativeDeploy: false
+
+# HorizontalPodAutoscaler
+hpa:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 6
+  cpuTargetAverageUtilization: 80
+  memoryTargetAverageUtilization: 80
+  # Add labels to the HPA
+  labels: {}
+
+# Canary deployments
+# If enabled, Istio and Flagger need to be installed in the cluster
+canary:
+  enabled: false
+  progressDeadlineSeconds: 60
+  analysis:
+    interval: "1m"
+    threshold: 5
+    maxWeight: 60
+    stepWeight: 20
+    # WARNING: Canary deployments will fail and rollback if there is no traffic that will generate the below specified metrics.
+    metrics:
+      latency:
+        threshold: 500
+        interval: "1m"
+  # The host is using Istio Gateway or the underlying ingress mechanism
+  # This value is defaulted from the environments jx-requirements.yml ingress configuration
+  host: ""
+  # Add labels to the canary
+  labels: {}
+  # Add labels to the canary gateway
+  gatewayLabels: {}
+
+service:
+  name: test-pants
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 8080
+  annotations: {}
+  # Add labels to the service
+  labels: {}
+resources:
+  limits:
+    cpu: 400m
+    memory: 256Mi
+  requests:
+    cpu: 200m
+    memory: 128Mi
+probePath: /
+livenessProbe:
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+  # Optional distinct liveness probe path, if empty the probePath is used
+  probePath: ""
+readinessProbe:
+  failureThreshold: 1
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+  # Optional distinct readiness probe path, if empty the probePath is used
+  probePath: ""
+
+# custom ingress annotations on this service
+ingress:
+  annotations: {}
+  # defaults to nginx if no other ingress class annotation specified
+  classAnnotation: ""
+  # Add labels to the ingress
+  labels: {}
+
+  # ingress path type
+  pathType: ImplementationSpecific
+
+serviceAccount:
+  enabled: true
+  name: ""
+  annotations: {}
+#    iam.gke.io/gcp-service-account: my-sa-in-gke
+  # Add labels to the SA
+  labels: {}
+#    my-custom-label: value
+
+# values we use from the `jx-requirements.yml` file if we are using helmfile and helm 3
+jxRequirements:
+  ingress:
+    # shared ingress annotations on all services
+    annotations: {}
+    #  kubernetes.io/ingress.class: nginx
+
+    apiVersion: "networking.k8s.io/v1"
+
+    # the domain for hosts
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: -jx.
+    serviceType: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+      secretName: ""
+
+
