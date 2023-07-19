@@ -51,9 +51,11 @@ jobs:
       run: |
         pants tailor --check update-build-files --check ::
     - name: Lint and typecheck
-      run: pants lint check ::
+      run: |
+        pants lint check ::
     - name: Test
-      run: pants test ::
+      run: |
+        pants test ::
     - name: Package / Run
       run: |
         # We also smoke test that our release process will work by running `package`.
