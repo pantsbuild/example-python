@@ -27,7 +27,7 @@ jobs:
     - uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: pantsbuild/actions/init-pants@v4-scie-pants
+    - uses: pantsbuild/actions/init-pants@v5-scie-pants
       # This action bootstraps pants and manages 2-3 GHA caches.
       # See: github.com/pantsbuild/actions/tree/main/init-pants/
       with:
@@ -48,10 +48,10 @@ jobs:
         # See https://pants.readme.io/docs/using-pants-in-ci for tips on how to periodically clean it up.
         # Alternatively you change gha-cache-key to ignore old caches.
     - name: Check BUILD files
-      run:  |
+      run: |
         pants tailor --check update-build-files --check ::
     - name: Lint and typecheck
-      run: | 
+      run: |
         pants lint check ::
     - name: Test
       run: |
