@@ -60,7 +60,7 @@ jobs:
       run: |
         # We also smoke test that our release process will work by running `package`.
         pants package ::
-        pants run helloworld/main.py
+        pants run helloworld/:pex_binary
     - name: Upload pants log
       uses: actions/upload-artifact@v3
       with:
