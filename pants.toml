@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.16.0"
+pants_version = "2.17.0"
 backend_packages.add = [
   "pants.backend.build_files.fmt.black",  
   "pants.backend.python",
@@ -44,3 +44,7 @@ resolves = { python-default = "python-default.lock"}
 #  problematic system Pythons. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility#changing-the-interpreter-search-path.
 search_path = ["<PATH>", "<PYENV>"]
+
+[python-infer]
+# 2.17 is transitioning to a new, faster parser for dependency inference:
+use_rust_parser = true
