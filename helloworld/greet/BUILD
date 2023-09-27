@@ -8,11 +8,13 @@
 python_sources(
     name="lib",
     dependencies=[":translations"],
+    resolve=parametrize("python-default", "service-main2")
 )
 
 # This target sets the metadata for all the Python test files in this directory.
 python_tests(
     name="tests",
+    resolve=parametrize("python-default", "service-main2")
 )
 
 # This target teaches Pants about our JSON file, which allows other targets to depend on it.

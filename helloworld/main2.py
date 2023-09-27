@@ -9,7 +9,7 @@ from helloworld.greet.greeting import Greeter
 
 def say_hello() -> None:
     greeting = Greeter().greet("Pantsbuild")
-    greeting = f"main1.py: {greeting} with colors.__version__ = {colors.__version__}"
+    greeting = f"main2.py: {greeting} with colors.__version__ = {colors.__version__}"
     print(green(greeting))
 
 

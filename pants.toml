@@ -36,7 +36,10 @@ interpreter_constraints = ["==3.9.*"]
 # `generate-lockfiles` goal for Pants to generate the lockfile for you.
 enable_resolves = true
 
-resolves = { python-default = "python-default.lock"}
+[python.resolves]
+  python-default = "python-default.lock"
+  service-main2 = "service-main2.lock"
+
 
 [python-bootstrap]
 # We search for interpreters both on the $PATH and in the `$(pyenv root)/versions` folder.
