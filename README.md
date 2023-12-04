@@ -3,9 +3,9 @@ An example repository to demonstrate Python support in Pants.
 
 See [pantsbuild.org](https://www.pantsbuild.org/docs) for much more detailed documentation.
 
-This is only one possible way of laying out your project with Pants. See 
-[pantsbuild.org/docs/source-roots#examples](https://www.pantsbuild.org/docs/source-roots#examples) for some other
-example layouts.
+## Codebase layout
+_Pants does not expect you to reorganize your codebase._ This example repo demonstrates one of the many possible project codebase layouts that Pants works especially well with.  See [pantsbuild.org/docs/source-roots#examples](https://www.pantsbuild.org/docs/source-roots#examples) for several other
+examples of common codebase layouts.
 
 # Running Pants
 
