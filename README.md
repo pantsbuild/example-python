@@ -172,5 +172,5 @@ pants count-loc '**/*'
 ## Create virtualenv for IDE integration
 
 ```
-pants export ::
+pants export --resolve=python-default
 ```
