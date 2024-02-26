@@ -3,7 +3,7 @@ An example repository to demonstrate Python support in Pants.
 
 See [pantsbuild.org](https://www.pantsbuild.org/docs) for much more detailed documentation.
 
-This is only one possible way of laying out your project with Pants. See 
+This is only one possible way of laying out your project with Pants. See
 [pantsbuild.org/docs/source-roots#examples](https://www.pantsbuild.org/docs/source-roots#examples) for some other
 example layouts.
 
@@ -31,8 +31,8 @@ pants help goals
 
 # Targets
 
-Targets are a way of setting metadata for some part of your code, such as timeouts for tests and 
-entry points for binaries. Targets have types like `python_source`, `resources`, and 
+Targets are a way of setting metadata for some part of your code, such as timeouts for tests and
+entry points for binaries. Targets have types like `python_source`, `resources`, and
 `pex_binary`. They are defined in `BUILD` files.
 
 Pants goals can be invoked on targets or directly on source files (which is often more intuitive and convenient).
@@ -169,8 +169,16 @@ pants package helloworld/translator:dist
 ```
 pants count-loc '**/*'
 ```
+
+## Generate or update a lockfile containing the dependencies
+
+```
+pants generate-lockfiles --resolve=python-default
+```
+
+
 ## Create virtualenv for IDE integration
 
 ```
-pants export ::
+pants export --resolve=python-default
 ```
