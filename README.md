@@ -139,9 +139,13 @@ pants test helloworld/translator/translator_test.py -- -k test_unknown_phrase  #
 
 ## Create a PEX binary
 
+The `package` goal requires specifying a target which can be packaged. In this case, the there is a `pex_binary` target with the name `pex_binary` in the `helloworld/BUILD` file.
+
 ```
-pants package helloworld/main.py
+pants package helloworld:pex_binary
 ```
+
+The pex file is output to `dist/helloworld/pex_binary.pex` and can be executed directly.
 
 ## Run a binary directly
 
