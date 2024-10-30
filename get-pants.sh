@@ -163,7 +163,7 @@ Once installed, if you want to update your "pants" launcher binary, use
 -h | --help: Print this help message.
 
 -d | --bin-dir:
-  The directory to install the scie-pants binary in, "~/bin" by default.
+  The directory to install the scie-pants binary in, "~/.local/bin" by default.
 
 -b | --base-name:
   The name to use for the scie-pants binary, "pants" by default.
@@ -176,7 +176,7 @@ Once installed, if you want to update your "pants" launcher binary, use
 EOF
 }
 
-bin_dir="${HOME}/bin"
+bin_dir="${HOME}/.local/bin"
 base_name="pants"
 version="latest/download"
 while (($# > 0)); do
