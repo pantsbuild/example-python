@@ -1,7 +1,7 @@
 # Copyright 2020 Pants project contributors.
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
-# See https://www.pantsbuild.org/2.21/docs/using-pants/using-pants-in-ci for tips on how to set up your CI with Pants.
+# See https://www.pantsbuild.org/stable/docs/using-pants/using-pants-in-ci for tips on how to set up your CI with Pants.
 
 name: Pants
 
@@ -11,23 +11,24 @@ jobs:
   org-check:
     name: Check GitHub Organization
     if: ${{ github.repository_owner == 'pantsbuild' }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Noop
         run: "true"
   build:
     name: Perform CI Checks
     needs: org-check
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.9]
+        python-version: [3.13]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: pantsbuild/actions/init-pants@v8
+        cache: 'pip'
+    - uses: pantsbuild/actions/init-pants@main
       # This action bootstraps pants and manages 2-3 GHA caches.
       # See: github.com/pantsbuild/actions/tree/main/init-pants/
       with:
@@ -62,7 +63,7 @@ jobs:
         pants package ::
         pants run helloworld/:pex_binary
     - name: Upload pants log
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: pants-log
         path: .pants.d/workdir/pants.log
