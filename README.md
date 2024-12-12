@@ -70,10 +70,10 @@ You can run on all changed files:
 pants --changed-since=HEAD lint
 ```
 
-You can run on all changed files, and any of their "dependees":
+You can run on all changed files, and any of their "dependents":
 
 ```
-pants --changed-since=HEAD --changed-dependees=transitive test
+pants --changed-since=HEAD --changed-dependents=transitive test
 ```
 
 ## Target specifications
