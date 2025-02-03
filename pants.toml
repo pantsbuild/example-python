@@ -13,24 +13,6 @@ backend_packages.add = [
   "pants.backend.python.typecheck.mypy",
 ]
 
-# Pants' sponsor, Toolchain, offers remote caching, which can improve your CI performance with minimal configuration. 
-# Visit https://toolchain.com to enable and try it on your repository
-# docs: https://docs.toolchain.com/docs
-
-plugins.add = [
-  "toolchain.pants.plugin==0.25.0",
-]
-remote_cache_read = false
-remote_cache_write = false
-
-[toolchain-setup]
-repo = "example-python"
-org = "pantsbuild"
-
-[buildsense]
-enable = false
-# End Toolchain-specific configuration
-
 [anonymous-telemetry]
 enabled = true
 repo_id = "3B1D361B-E9F1-49A8-B761-03DCC41FD58E"
@@ -43,7 +25,7 @@ root_patterns = ["/"]
 # The default interpreter constraints for code in this repo. Individual targets can override
 #  this with the `interpreter_constraints` field. See
 #  https://www.pantsbuild.org/docs/python-interpreter-compatibility.
-
+#
 # Modify this if you don't have Python 3.9 on your machine.
 # This can be a range, such as [">=3.8,<3.11"], but it's usually recommended to restrict
 # to a single minor version.
