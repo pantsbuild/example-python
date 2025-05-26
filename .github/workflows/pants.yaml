@@ -32,7 +32,6 @@ jobs:
         named-caches-hash: ${{ hashFiles('python-default.lock') }}
         pants-ci-config: |
           pants.toml
-          pants.ci.toml
           /tmp/pants.toml
 
     - name: Check BUILD files
