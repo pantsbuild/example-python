@@ -10,13 +10,15 @@ on: [push, workflow_dispatch]
 jobs:
   build:
     name: Perform CI Checks
-    runs-on: 
-      # Replace with your profile label https://namespace.so/docs/features/faster-github-actions#using-runner-profiles
-      - namespace-profile-default
-      - namespace-profile-default-arm64
     strategy:
       matrix:
+        runner:
+          # Replace with your profile label https://namespace.so/docs/features/faster-github-actions#using-runner-profiles
+          - namespace-profile-default
+          - namespace-profile-default-arm64
         python-version: [3.9]
+      fail-fast: false
+    runs-on: ${{ matrix.runner }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up remote cache
