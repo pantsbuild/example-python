@@ -50,8 +50,8 @@ jobs:
         pants package ::
         pants run helloworld/:pex_binary
     - name: Upload pants log
-      uses: actions/upload-artifact@v4
+      uses: namespace-actions/upload-artifact@v1
       with:
-        name: pants-log
+        name: pants-log-${{ matrix.runner }}
         path: .pants.d/workdir/pants.log
       if: always()  # We want the log even on failures.
