@@ -13,6 +13,7 @@ jobs:
     runs-on: 
       # Replace with your profile label https://namespace.so/docs/features/faster-github-actions#using-runner-profiles
       - namespace-profile-default
+      - namespace-profile-default-arm64
     strategy:
       matrix:
         python-version: [3.9]
