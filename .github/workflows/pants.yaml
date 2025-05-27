@@ -14,26 +14,49 @@ jobs:
       matrix:
         runner:
           # Replace with your profile label https://namespace.so/docs/features/faster-github-actions#using-runner-profiles
-          - namespace-profile-default
-          - namespace-profile-default-arm64
+          - namespace-profile-amd64-with-caching
+          - namespace-profile-arm64-with-caching
         python-version: [3.9]
+        setup:
+          - manual
+          - init-pants-action
       fail-fast: false
     runs-on: ${{ matrix.runner }}
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up remote cache
       run: |
-        nsc pants cache setup --pants-toml=/tmp/pants.toml
+        nsc pants cache setup --pants-toml=pants.cache.toml
+
+    - name: Set up local cache
+      uses: namespacelabs/nscloud-cache-action@v1
+      with:
+        path: |
+          ~/.cache/pants/named_caches
+          ~/.cache/pants/lmdb_store
+          ~/.cache/nce
+
     - uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+
+    - name: Limit LMDB memory usage 
+      if: runner.arch == 'ARM64'
+      run: echo "PANTS_LOCAL_STORE_PROCESSES_MAX_SIZE_BYTES=536870912" >> $GITHUB_ENV
+
     - uses: pantsbuild/actions/init-pants@v8
-      # This action bootstraps pants and manages 2-3 GHA caches.
-      # See: github.com/pantsbuild/actions/tree/main/init-pants/
+      if: matrix.setup == 'init-pants-action'
       with:
         gha-cache-key: v0
         named-caches-hash: ${{ hashFiles('python-default.lock') }}
-        pants-ci-config: "['pants.toml', '/tmp/pants.toml']"
+        pants-ci-config: "['pants.toml', 'pants.ci.toml', 'pants.cache.toml']"
+
+    - name: Install Pants manually
+      if: matrix.setup == 'manual'
+      run: |
+        curl --proto '=https' --tlsv1.2 -fsSL https://static.pantsbuild.org/setup/get-pants.sh | bash
+        echo "PANTS_CONFIG_FILES=['pants.toml','pants.ci.toml','pants.cache.toml']" >> $GITHUB_ENV
 
     - name: Check BUILD files
       run: |
@@ -49,9 +72,10 @@ jobs:
         # We also smoke test that our release process will work by running `package`.
         pants package ::
         pants run helloworld/:pex_binary
-    - name: Upload pants log
-      uses: namespace-actions/upload-artifact@v1
+
+    - name: Breakpoint
+      uses: namespacelabs/breakpoint-action@v0
+      if: failure()
       with:
-        name: pants-log-${{ matrix.runner }}
-        path: .pants.d/workdir/pants.log
-      if: always()  # We want the log even on failures.
+        duration: 15m
+        authorized-users: edganiukov,hugosantos,n-g,htr,nichtverstehen,gmichelo
