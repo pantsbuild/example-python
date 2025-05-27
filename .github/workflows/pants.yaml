@@ -5,48 +5,59 @@
 
 name: Pants
 
-on: [push, pull_request]
+on: [push, workflow_dispatch]
 
 jobs:
-  org-check:
-    name: Check GitHub Organization
-    if: ${{ github.repository_owner == 'pantsbuild' }}
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Noop
-        run: "true"
   build:
     name: Perform CI Checks
-    needs: org-check
-    runs-on: ubuntu-24.04
     strategy:
       matrix:
+        runner:
+          # Replace with your profile label https://namespace.so/docs/features/faster-github-actions#using-runner-profiles
+          - namespace-profile-amd64-with-caching
+          - namespace-profile-arm64-with-caching
         python-version: [3.9]
+        setup:
+          - manual
+          - init-pants-action
+      fail-fast: false
+    runs-on: ${{ matrix.runner }}
     steps:
     - uses: actions/checkout@v4
+
+    - name: Set up remote cache
+      run: |
+        nsc pants cache setup --pants-toml=pants.cache.toml
+
+    - name: Set up local cache
+      uses: namespacelabs/nscloud-cache-action@v1
+      with:
+        path: |
+          ~/.cache/pants/named_caches
+          ~/.cache/pants/lmdb_store
+          ~/.cache/nce
+
     - uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+
+    - name: Limit LMDB memory usage 
+      if: runner.arch == 'ARM64'
+      run: echo "PANTS_LOCAL_STORE_PROCESSES_MAX_SIZE_BYTES=536870912" >> $GITHUB_ENV
+
     - uses: pantsbuild/actions/init-pants@v8
-      # This action bootstraps pants and manages 2-3 GHA caches.
-      # See: github.com/pantsbuild/actions/tree/main/init-pants/
+      if: matrix.setup == 'init-pants-action'
       with:
-        # v0 makes it easy to bust the cache if needed
-        # just increase the integer to start with a fresh cache
         gha-cache-key: v0
-        # The Python backend uses named_caches for Pip/PEX state,
-        # so it is appropriate to invalidate on lockfile changes.
         named-caches-hash: ${{ hashFiles('python-default.lock') }}
-        # If you're not using a fine-grained remote caching service (see https://www.pantsbuild.org/docs/remote-caching),
-        # then you may also want to preserve the local Pants cache (lmdb_store). However this must invalidate for
-        # changes to any file that can affect the build, so may not be practical in larger repos.
-        # A remote cache service integrates with Pants's fine-grained invalidation and avoids these problems.
-        cache-lmdb-store: 'true'  # defaults to 'false'
-        # Note that named_caches and lmdb_store falls back to partial restore keys which
-        # may give a useful partial result that will save time over completely clean state,
-        # but will cause the cache entry to grow without bound over time.
-        # See https://www.pantsbuild.org/stable/docs/using-pants/using-pants-in-ci for tips on how to periodically clean it up.
-        # Alternatively you change gha-cache-key to ignore old caches.
+        pants-ci-config: "['pants.toml', 'pants.ci.toml', 'pants.cache.toml']"
+
+    - name: Install Pants manually
+      if: matrix.setup == 'manual'
+      run: |
+        curl --proto '=https' --tlsv1.2 -fsSL https://static.pantsbuild.org/setup/get-pants.sh | bash
+        echo "PANTS_CONFIG_FILES=['pants.toml','pants.ci.toml','pants.cache.toml']" >> $GITHUB_ENV
+
     - name: Check BUILD files
       run: |
         pants tailor --check update-build-files --check ::
@@ -61,9 +72,10 @@ jobs:
         # We also smoke test that our release process will work by running `package`.
         pants package ::
         pants run helloworld/:pex_binary
-    - name: Upload pants log
-      uses: actions/upload-artifact@v4
+
+    - name: Breakpoint
+      uses: namespacelabs/breakpoint-action@v0
+      if: failure()
       with:
-        name: pants-log
-        path: .pants.d/workdir/pants.log
-      if: always()  # We want the log even on failures.
+        duration: 15m
+        authorized-users: edganiukov,hugosantos,n-g,htr,nichtverstehen,gmichelo
