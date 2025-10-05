@@ -2,7 +2,7 @@
 # Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 [GLOBAL]
-pants_version = "2.28.0"
+pants_version = "2.29.0"
 backend_packages.add = [
   "pants.backend.build_files.fmt.black",  
   "pants.backend.python",
