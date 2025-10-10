@@ -3,10 +3,9 @@
 
 from __future__ import annotations
 
+import importlib.resources
 import json
 import random
-
-import pkg_resources
 
 from helloworld.translator.translator import LanguageTranslator
 
@@ -19,7 +18,7 @@ class Greeter:
             translations
             if translations is not None
             else json.loads(
-                pkg_resources.resource_string(__name__, "translations.json")
+                importlib.resources.read_text(__name__, "translations.json")
             )
         )
         self._translator = LanguageTranslator(self._translations)
