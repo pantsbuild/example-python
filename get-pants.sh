@@ -71,7 +71,15 @@ check_cmd basename
 if [[ "${OS}" == "windows" ]]; then
   check_cmd pwsh
 else
-  check_cmd curl
+  # Detect whether curl or wget is available
+  FETCH_CMD=""
+  if command -v curl > /dev/null; then
+    FETCH_CMD="curl"
+  elif command -v wget > /dev/null; then
+    FETCH_CMD="wget"
+  else
+    die "This script requires either curl or wget to be installed."
+  fi
 fi
 
 function fetch() {
@@ -83,8 +91,10 @@ function fetch() {
 
   if [[ "${OS}" == "windows" ]]; then
     pwsh -c "Invoke-WebRequest -OutFile $dest -Uri $url"
-  else
+  elif [[ "${FETCH_CMD}" == "curl" ]]; then
     curl --proto '=https' --tlsv1.2 -sSfL -o "${dest}" "${url}"
+  elif [[ "${FETCH_CMD}" == "wget" ]]; then
+    wget --https-only --secure-protocol=TLSv1_2 -q -O "${dest}" "${url}"
   fi
 }
 
@@ -102,6 +112,23 @@ function sha256() {
   fi
 }
 
+# Determine which silent/status flag sha256sum supports
+# GNU coreutils uses --status, BusyBox uses -s
+SHA256_STATUS_FLAG=""
+function detect_sha256_status_flag() {
+  if [[ "${OS}" != "macos" ]]; then
+    # Test for --status (GNU coreutils)
+    if echo "test" | sha256sum --status -c - 2>/dev/null; then
+      SHA256_STATUS_FLAG="--status"
+    # Test for -s (BusyBox)
+    elif echo "test" | sha256sum -s -c - 2>/dev/null; then
+      SHA256_STATUS_FLAG="-s"
+    fi
+  fi
+}
+
+detect_sha256_status_flag
+
 check_cmd mktemp
 
 function install_from_url() {
@@ -116,7 +143,7 @@ function install_from_url() {
   fetch "${url}" "${workdir}"
   (
     cd "${workdir}"
-    sha256 -c --status ./*.sha256 ||
+    sha256 -c ${SHA256_STATUS_FLAG} ./*.sha256 ||
       die "Download from ${url} did not match the fingerprint at ${url}.sha256"
   )
   rm "${workdir}/"*.sha256
